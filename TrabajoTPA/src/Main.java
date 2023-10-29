@@ -1,5 +1,11 @@
 import javax.swing.JFrame;
 
+/**
+ * 
+ * Clase que va a generar la ventana y donde se va a llamar al resto de funciones que ejecutaran el juego
+ * 
+ */
+
 public class Main {
 	public static void main (String args []) {
 		

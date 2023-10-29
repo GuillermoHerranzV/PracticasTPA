@@ -5,9 +5,11 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-/*
+/**
+ * 
  * Con esta clase vamos a definir los tamanios de las cosas que se van a ver en pantalla
- * Hereda de la libreria JPanel
+ * Hereda de la biblioteca JPanel
+ * 
  */
 
 public class PanelDeJuego extends JPanel implements Runnable{
@@ -35,6 +37,9 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	//Velocidad inicial del jugador
 	int velocidadJugador = 4;
 	
+	/**
+	 *  Inicializa los ajustes de lo que se va a ver en la ventana del juego y como se va a comportar esta
+	 */
 	public PanelDeJuego () {
 		
 		this.setPreferredSize(new Dimension (anchoVentana, altoVentana)); //Aplica las dimensiones declaradas antes
@@ -45,6 +50,9 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * Inicia el thread para que el juego se ejecute de forma ciclica y constante sin parar
+	 */
 	public void startGameThread () {
 		
 		gameThread = new Thread (this);
@@ -52,7 +60,10 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 	}
 	
-	//Ejecuta el thread para actualizar la informacion del juego como la posicion del jugador/enemigos/npcs
+	/**
+	 * Ejecuta el thread para actualizar la informacion del juego como la posicion del jugador/enemigos/npcs
+	 * Tiene un contador de FPS que tambien actua como limite
+	 */
 	@Override
 	public void run() {
 		
@@ -97,7 +108,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 	}
 	
-	/*
+	/**
 	 * Actualiza la posicion del jugador en el escenario mediante la clase Controles que es la que captura el input por teclado y lo traduce a un booleano que indica cual se esta pulsando
 	 */
 	public void update () {
@@ -122,6 +133,10 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * Se encarga de generar los graficos y de dibujarlos en pantalla
+	 * @param g va a ser la variable de graficos, hay que ponerla para que funcione
+	 */
 	public void paintComponent (Graphics g) {
 		
 		super.paintComponent (g);
