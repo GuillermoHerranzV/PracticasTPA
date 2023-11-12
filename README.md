@@ -8,3 +8,6 @@ El plan inicial es construir dos niveles con un jefe cada uno (cada nivel más d
 ## Interfaz
 Respecto a la interfaz de usuario mientras el jugador este andando por los niveles, el personaje elegido aparecerá siempre en el centro de la pantalla y la vida en la esquina superior izquierda mientras el resto del escenario se mueve a medida que el jugador avanza.
 Cuando el jugador entre en combate, la interfaz cambiará y el jugador verá a su personaje en la parte izquierda con la barra de vida encima de su cabeza, el enemigo se situará en la parte arriba derecha con la barra de vida debajo. También habrá una caja en la parte inferior de la pantalla donde se podrán ver las opciones que tiene el jugador para combatir.
+### Estado actual
+En su estado actual el juego permite mover un personaje en una ventada fijada de relacion 16:9 con texturas de fondo (las texturas y el personaje por el momento estan sacados de internet)
+![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/ad66caf5-512c-4829-a550-d3b7e3a915bf)
