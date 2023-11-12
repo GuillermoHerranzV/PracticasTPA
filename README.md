@@ -11,3 +11,7 @@ Cuando el jugador entre en combate, la interfaz cambiará y el jugador verá a s
 ### Estado actual
 En su estado actual el juego permite mover un personaje en una ventada fijada de relacion 16:9 con texturas de fondo (las texturas y el personaje por el momento estan sacados de internet)
 ![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/ad66caf5-512c-4829-a550-d3b7e3a915bf)
+### Esquema UML actual
+El esquema UML actualizado:
+![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/ccbc848f-dd4b-46c2-a52b-0d0060ffaea9)
+
