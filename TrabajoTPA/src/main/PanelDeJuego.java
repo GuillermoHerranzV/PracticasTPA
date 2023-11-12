@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.TileManager;
 
 /**
  * 
@@ -22,15 +23,16 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	
 	public final int tamFinalCasilla = defaultSize * escalado;
 	//Las 2 variables siguientes definen cuantas cuadriculas se mostraran en cada fila y columna de la ventana (16:9 el aspect ratio promedio a dia de hoy)
-	final int columnasPantalla = 16;
-	final int filasPantalla = 9;
+	public final int columnasPantalla = 16;
+	public final int filasPantalla = 9;
 	
-	final int anchoVentana = tamFinalCasilla * columnasPantalla; //768 pixeles de ancho (tamanio de la casilla por el numero de casillas = 48 * 16)
-	final int altoVentana = tamFinalCasilla * filasPantalla; //432 de alto (tamanio de la casilla por el numero de casillas = 48 * 9)
+	public final int anchoVentana = tamFinalCasilla * columnasPantalla; //768 pixeles de ancho (tamanio de la casilla por el numero de casillas = 48 * 16)
+	public final int altoVentana = tamFinalCasilla * filasPantalla; //432 de alto (tamanio de la casilla por el numero de casillas = 48 * 9)
 	
 	//Frames por segundo del juego
 	int FPS = 60;
 	
+	TileManager tileM = new TileManager (this);
 	Controles key = new Controles ();
 	Thread gameThread;
 	Player player = new Player (this, key);
@@ -132,6 +134,8 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 		// Amplia la funcionalidad de la clase Graphics
 		Graphics2D g2 = (Graphics2D)g;
+		
+		tileM.draw(g2);
 		
 		player.draw(g2);
 		
