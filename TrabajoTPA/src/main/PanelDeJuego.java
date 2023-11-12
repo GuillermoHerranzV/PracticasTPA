@@ -1,9 +1,12 @@
+package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import entity.Player;
 
 /**
  * 
@@ -17,7 +20,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	final int defaultSize = 16; //Una cuadricula de 16x16 pixeles
 	final int escalado = 3; //Escala la resolucion del png para que no se vea tan pequenio
 	
-	final int tamFinalCasilla = defaultSize * escalado;
+	public final int tamFinalCasilla = defaultSize * escalado;
 	//Las 2 variables siguientes definen cuantas cuadriculas se mostraran en cada fila y columna de la ventana (16:9 el aspect ratio promedio a dia de hoy)
 	final int columnasPantalla = 16;
 	final int filasPantalla = 9;
@@ -30,6 +33,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	
 	Controles key = new Controles ();
 	Thread gameThread;
+	Player player = new Player (this, key);
 	
 	//Posiciones iniciales del jugador
 	int jugadorX = 100;
@@ -110,26 +114,11 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	
 	/**
 	 * Actualiza la posicion del jugador en el escenario mediante la clase Controles que es la que captura el input por teclado y lo traduce a un booleano que indica cual se esta pulsando
+	 * Lo hace llamando a la funcion update de la clase Player
 	 */
 	public void update () {
 		
-		if (key.arriba == true) {
-			
-			jugadorY -= velocidadJugador;
-			
-		}else if (key.abajo == true) {
-			
-			jugadorY += velocidadJugador;
-			
-		}else if (key.izq == true) {
-			
-			jugadorX -= velocidadJugador;
-			
-		}else if (key.der == true) {
-			
-			jugadorX += velocidadJugador;
-			
-		}
+		player.update();
 		
 	}
 	
@@ -144,9 +133,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		// Amplia la funcionalidad de la clase Graphics
 		Graphics2D g2 = (Graphics2D)g;
 		
-		g2.setColor(Color.white);
-		
-		g2.fillRect(jugadorX, jugadorY, tamFinalCasilla, tamFinalCasilla);
+		player.draw(g2);
 		
 		//Libera la memoria que se este usando
 		g2.dispose();

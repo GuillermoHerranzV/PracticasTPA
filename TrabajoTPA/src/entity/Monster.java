@@ -1,4 +1,4 @@
-
+package entity;
 /**
  * Clase Monster que hereda de entity
  */

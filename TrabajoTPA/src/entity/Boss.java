@@ -1,4 +1,4 @@
-
+package entity;
 /**
  * Clase Boss que hereda de Monster y amplia funcionalidades
  */

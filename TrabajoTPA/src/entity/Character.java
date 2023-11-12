@@ -1,9 +1,17 @@
+package entity;
+
+import main.Controles;
+import main.PanelDeJuego;
 
 /**
  * Clase Character que hereda de Player ya que el jugador podra escoger entre distintos personajes
  */
-public class Character extends Player {
+/*public class Character extends Player {
     private int mana;
+    
+    public Character (PanelDeJuego gp, Controles key) {
+    	
+    }
     
     public int getMana() {
         return mana;
@@ -17,5 +25,5 @@ public class Character extends Player {
         return ("Your character does: ");
     }
     
-}
+}*/
 
