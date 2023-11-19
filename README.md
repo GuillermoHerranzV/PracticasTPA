@@ -18,5 +18,6 @@ Los sprites de los objetos estan implementados pero no se muestran todavia ya qu
 
 ### Esquema UML actual
 El esquema UML actualizado:
-![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/ccbc848f-dd4b-46c2-a52b-0d0060ffaea9)
+![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/135ea388-d003-4641-8b9c-07fdc0f9fa60)
+
 
