@@ -14,6 +14,7 @@ El personaje para cuando colisiona con una casilla que no permite ser atravesada
 Los sprites de los objetos estan implementados pero no se muestran todavia ya que no tienen uso.
 
 ![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/195ad3fc-82bf-4993-abf7-b06c94934086)
+(Sprites provisionales)
 
 ### Esquema UML actual
 El esquema UML actualizado:
