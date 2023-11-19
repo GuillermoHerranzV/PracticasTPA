@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
@@ -9,11 +10,14 @@ public class Entity {
     private int hp;
     private int dmg;
     
-    public int x, y;
+    public int mundoX, mundoY;
     public int speed;
     
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    
+    public Rectangle areaSolida;
+    public boolean colisionOn = false;
     
     //Utilizado para poder guardar las imagenes del juego
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -45,10 +49,10 @@ public class Entity {
         return hp;
     }
     public void setX(int X) {
-        this.x = X;
+        this.mundoX = X;
     }
     public void setY(int Y) {
-        this.y = Y;
+        this.mundoY = Y;
     }
     public void setSpeed(int Speed) {
         this.speed = Speed;

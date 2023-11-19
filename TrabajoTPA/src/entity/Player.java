@@ -1,6 +1,7 @@
 package entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,11 +21,24 @@ public class Player extends Entity{
     
     PanelDeJuego gp;
     Controles key;
+    
+    public final int pantallaX;
+    public final int pantallaY;
 
     public Player(PanelDeJuego gp, Controles key) {
     	
     	this.gp = gp;
     	this.key = key;
+    	
+    	//Posicion donde se dibuja el sprite del jugador
+    	pantallaX = gp.anchoVentana /2 - (gp.tamFinalCasilla/2);
+    	pantallaY = gp.altoVentana /2 - (gp.tamFinalCasilla/2);
+    	
+    	areaSolida = new Rectangle ();
+    	areaSolida.x = 16;
+    	areaSolida.y = 32;
+    	areaSolida.width = 16;
+    	areaSolida.height = 16;
     	
     	setDefaultValues ();
     	getPlayerImage();
@@ -35,8 +49,8 @@ public class Player extends Entity{
     
     public void setDefaultValues () {
     	
-    	x = 100;
-    	y = 100;
+    	mundoX = gp.tamFinalCasilla * 23;
+    	mundoY = gp.tamFinalCasilla * 21;
     	speed = 4;
     	direction = "down";
     	
@@ -65,21 +79,34 @@ public class Player extends Entity{
     	
     	if (key.arriba == true || key.abajo == true || key.izq == true || key.der == true) {
     		
-    		if (key.arriba == true) {
-    			direction = "up";
-    			y -= speed;
+    		if (key.arriba == true) {direction = "up";
+    		}else if (key.abajo == true) {direction = "down";
+    		}else if (key.izq == true) {direction = "left";
+    		}else if (key.der == true) {direction = "right";}
+    		
+    		//Comprobar colision del jugador
+    		colisionOn = false;
+    		gp.cChecker.comprobarCasilla (this);
+    		
+    		//Si no hay colision el jugador se puede mover
+    		if (colisionOn == false) {
     			
-    		}else if (key.abajo == true) {
-    			direction = "down";
-    			y += speed;
+    			switch (direction) {
     			
-    		}else if (key.izq == true) {
-    			direction = "left";
-    			x -= speed;
+    			case "up":
+    				mundoY -= speed;
+    				break;
+    			case "down":
+    				mundoY += speed;
+    				break;
+    			case "left":
+    				mundoX -= speed;
+    				break;
+    			case "right":
+    				mundoX += speed;
+    				break;
     			
-    		}else if (key.der == true) {
-    			direction = "right";
-    			x += speed;
+    			}
     			
     		}
         	
@@ -143,7 +170,7 @@ public class Player extends Entity{
     	}
     	
     	//Dibuja el sprite
-    	g2.drawImage(image, x, y, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
+    	g2.drawImage(image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
     	
     }
     

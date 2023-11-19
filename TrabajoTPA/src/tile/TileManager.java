@@ -13,20 +13,23 @@ import main.PanelDeJuego;
 public class TileManager {
 
 	PanelDeJuego gp;
-	Tile [] tile;
-	int mapTileNum [] [];
+	public Tile [] tile;
+	public int mapTileNum [] [];
 	
 	public TileManager (PanelDeJuego gp) {
 		
 		this.gp = gp;
 		tile = new Tile [10];
-		mapTileNum = new int [gp.columnasPantalla] [gp.filasPantalla];
+		mapTileNum = new int [gp.maxColMundo] [gp.maxRowMundo];
 		
 		getTileImage ();
-		loadMap();
-		
+		loadMap ("/maps/world01.txt");
 	}
 	
+	/**
+	 * Funcion que permite leer los .png de los sprites y almacenarlos en un array para su futuro uso
+	 * Tambien se asigna true a las casillas que van a tener colision
+	 */
 	public void getTileImage () {
 		
 		try {
@@ -36,9 +39,21 @@ public class TileManager {
 			
 			tile [1] = new Tile ();
 			tile [1].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/wall.png"));
+			tile [1].collision = true;
 			
 			tile [2] = new Tile ();
 			tile [2].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/water.png"));
+			tile [2].collision = true;
+			
+			tile [3] = new Tile ();
+			tile [3].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/earth.png"));
+			
+			tile [4] = new Tile ();
+			tile [4].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/tree.png"));
+			tile [4].collision = true;
+			
+			tile [5] = new Tile ();
+			tile [5].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/sand.png"));
 			
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -46,63 +61,79 @@ public class TileManager {
 		
 	}
 	
-	public void loadMap () {
+	/**
+	 * Funcion que utiliza un string (filePath) para leer un mapa almacenado en un txt y almacenar en un array el sprite de casilla que corresponda con el numero que coincida entre el txt y el array de imagenes
+	 * @param filePath
+	 */
+	public void loadMap (String filePath) {
 		
 		try {
 			
-			InputStream is = getClass ().getResourceAsStream("/maps/map01.txt");
+			InputStream is = getClass().getResourceAsStream(filePath);
 			BufferedReader br = new BufferedReader (new InputStreamReader (is));
 			
 			int col = 0;
 			int row = 0;
 			
-			//Este bucle while lee el archivo, lo almacena como strings y luego lo transforma en numeros para poder representarlo posteriormente almacenandolo en la matriz mapTileNum
-			while (col < gp.columnasPantalla && row < gp.filasPantalla) {
+			while (col < gp.maxColMundo && row < gp.maxRowMundo) {
 				
-				String line = br.readLine ();
+				String line = br.readLine();
 				
-				while (col < gp.columnasPantalla) {
+				while (col < gp.maxColMundo) {
 					
 					String numbers [] = line.split(" ");
 					
 					int num = Integer.parseInt(numbers[col]);
 					
 					mapTileNum [col] [row] = num;
-					col++;
+					col ++;
+					
 				}
-				if (col == gp.columnasPantalla) {
+				if (col == gp.maxColMundo) {
 					col = 0;
-					row ++;
+					row++;
 				}
 			}
 			br.close ();
-			
 		}catch (Exception e) {
 			
 		}
 		
 	}
 	
+	/**
+	 * Dibuja el mapa en pantalla
+	 * El if contenido en el bucle while sirve para que el mapa solo se dibuje si esta en el rango de visualizacion de la ventana para optimizar el proceso de dibujado
+	 * @param g2
+	 */
 	public void draw (Graphics2D g2) {
 		
-		int col = 0;
-		int row = 0;
-		int x = 0;
-		int y = 0;
+		int columnasMundo = 0;
+		int filasMundo = 0;
 		
-		while (col < gp.columnasPantalla && row < gp.filasPantalla) {
+		while (columnasMundo < gp.maxColMundo && filasMundo < gp.maxRowMundo) {
 			
-			int tileNum = mapTileNum [col] [row];
+			int tileNum = mapTileNum [columnasMundo] [filasMundo];
 			
-			g2.drawImage(tile[tileNum].image, x, y, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
-			col ++;
-			x += gp.tamFinalCasilla;
+			//MudnoX e Y es la posicion del jugador en el mapa
+			int mundoX = columnasMundo * gp.tamFinalCasilla;
+			int mundoY = filasMundo * gp.tamFinalCasilla;
 			
-			if (col == gp.columnasPantalla) {
-				col = 0;
-				x = 0;
-				row ++;
-				y += gp.tamFinalCasilla;
+			//Posicion de las coordenadas 0 0 en relacion con la posicion del jugador
+			int pantallaX = mundoX - gp.player.mundoX + gp.player.pantallaX;
+			int pantallaY = mundoY - gp.player.mundoY + gp.player.pantallaY;
+			
+			if (mundoX + gp.tamFinalCasilla> gp.player.mundoX - gp.player.pantallaX && mundoX - gp.tamFinalCasilla < gp.player.mundoX + gp.player.pantallaX && mundoY + gp.tamFinalCasilla > gp.player.mundoY - gp.player.pantallaY && mundoY - gp.tamFinalCasilla < gp.player.mundoY + gp.player.pantallaY) {
+				
+				g2.drawImage(tile [tileNum].image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
+				
+			}
+			
+			columnasMundo ++;
+			
+			if (columnasMundo == gp.maxColMundo) {
+				columnasMundo = 0;
+				filasMundo ++;
 			}
 			
 		}

@@ -29,13 +29,20 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public final int anchoVentana = tamFinalCasilla * columnasPantalla; //768 pixeles de ancho (tamanio de la casilla por el numero de casillas = 48 * 16)
 	public final int altoVentana = tamFinalCasilla * filasPantalla; //432 de alto (tamanio de la casilla por el numero de casillas = 48 * 9)
 	
+	//Settings del mundo
+	public final int maxColMundo = 50;
+	public final int maxRowMundo = 50;
+	public final int anchoMundo = tamFinalCasilla * maxColMundo;
+	public final int altoMundo = tamFinalCasilla * maxRowMundo;
+	
 	//Frames por segundo del juego
 	int FPS = 60;
 	
 	TileManager tileM = new TileManager (this);
 	Controles key = new Controles ();
 	Thread gameThread;
-	Player player = new Player (this, key);
+	public Colisiones cChecker = new Colisiones (this);
+	public Player player = new Player (this, key);
 	
 	//Posiciones iniciales del jugador
 	int jugadorX = 100;
