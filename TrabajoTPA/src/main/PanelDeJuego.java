@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.SObject;
 import tile.TileManager;
 
 /**
@@ -30,8 +31,8 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public final int altoVentana = tamFinalCasilla * filasPantalla; //432 de alto (tamanio de la casilla por el numero de casillas = 48 * 9)
 	
 	//Settings del mundo
-	public final int maxColMundo = 50;
-	public final int maxRowMundo = 50;
+	public final int maxColMundo = 25;
+	public final int maxRowMundo = 25;
 	public final int anchoMundo = tamFinalCasilla * maxColMundo;
 	public final int altoMundo = tamFinalCasilla * maxRowMundo;
 	
@@ -42,7 +43,10 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	Controles key = new Controles ();
 	Thread gameThread;
 	public Colisiones cChecker = new Colisiones (this);
+	public AssetSetter aSetter = new AssetSetter (this);
 	public Player player = new Player (this, key);
+	public SObject objetos [] = new SObject [10];
+	
 	
 	//Posiciones iniciales del jugador
 	int jugadorX = 100;
@@ -60,6 +64,15 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		this.setDoubleBuffered(true); //Genera un buffer fuera de pantalla donde se realizan todos los dibujados de la clase y mejora la velocidad de renderizado
 		this.addKeyListener(key); //reconoce la tecla pulsada en el panel
 		this.setFocusable(true); //recibe el input cuando la ventana esta en primer plano
+		
+	}
+	
+	/**
+	 * Funcion que coloca los objetos en el mapa
+	 */
+	public void setupGame () {
+		
+		aSetter.setObj();
 		
 	}
 	
@@ -142,8 +155,21 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		// Amplia la funcionalidad de la clase Graphics
 		Graphics2D g2 = (Graphics2D)g;
 		
+		//Tile o casilla
 		tileM.draw(g2);
 		
+		//Objetos
+		/*for (int i = 0; i < objetos.length; i++) {
+			
+			if (objetos [i] != null) {
+				
+				objetos[i].draw(g2,  this);
+				
+			}
+			
+		}*/
+		
+		//Jugador
 		player.draw(g2);
 		
 		//Libera la memoria que se este usando

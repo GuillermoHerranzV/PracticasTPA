@@ -2,6 +2,9 @@ package main;
 
 import entity.Entity;
 
+/**
+ * Clase que detecta si el jugador esta colisionando con un objeto que no puede atravesar
+ */
 public class Colisiones {
 	
 	PanelDeJuego gp;
@@ -12,8 +15,13 @@ public class Colisiones {
 		
 	}
 	
+	/**
+	 * Funcion que recibe una entidad por parametro de entrada y en funcion de hacia donde se mueve la entidad (en este caso el jugador) comprueba las esquinas de su hitbox para decidir si la casilla hacia donde quiere moverse se puede atravesar o no
+	 * @param entity
+	 */
 	public void comprobarCasilla (Entity entity) {
 		
+		//Saca donde esta la colision del personaje en cada uno de sus lados
 		int entidadIzq = entity.mundoX + entity.areaSolida.x;
 		int entidadDer = entity.mundoX + entity.areaSolida.x + entity.areaSolida.width;
 		int entidadArr = entity.mundoY + entity.areaSolida.y;
@@ -26,6 +34,7 @@ public class Colisiones {
 		
 		int tileNum1, tileNum2;
 		
+		//Switch para cada caso de direccion en que colisiona
 		switch (entity.direction) {
 		
 		case "up":

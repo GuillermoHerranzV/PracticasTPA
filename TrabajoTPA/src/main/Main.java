@@ -23,7 +23,8 @@ public class Main {
 		window.setLocationRelativeTo (null);
 		window.setVisible(true);
 		
-		panelDeJuego.startGameThread();
+		panelDeJuego.setupGame(); //Coloca los objetos
+		panelDeJuego.startGameThread(); //Inicia el game thread
 		
 	}
 }

@@ -10,6 +10,9 @@ import javax.imageio.ImageIO;
 
 import main.PanelDeJuego;
 
+/**
+ * Clase que gestiona las casillas que se representan en pantalla
+ */
 public class TileManager {
 
 	PanelDeJuego gp;
@@ -23,7 +26,7 @@ public class TileManager {
 		mapTileNum = new int [gp.maxColMundo] [gp.maxRowMundo];
 		
 		getTileImage ();
-		loadMap ("/maps/world01.txt");
+		loadMap ("/maps/wildernesslevel1.txt");
 	}
 	
 	/**
@@ -46,14 +49,14 @@ public class TileManager {
 			tile [2].collision = true;
 			
 			tile [3] = new Tile ();
-			tile [3].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/earth.png"));
+			tile [3].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/sand.png"));
 			
 			tile [4] = new Tile ();
 			tile [4].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/tree.png"));
 			tile [4].collision = true;
 			
 			tile [5] = new Tile ();
-			tile [5].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/sand.png"));
+			tile [5].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/earth.png"));
 			
 		}catch (IOException e) {
 			e.printStackTrace();
