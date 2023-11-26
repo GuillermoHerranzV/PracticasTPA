@@ -74,5 +74,82 @@ public class Colisiones {
 		}
 		
 	}
-
+	
+	public int comprobarObjeto (Entity entidad, boolean jugador) {
+		
+		int index = 999;
+		
+		for (int i = 0; i < gp.objetos.length; i++) {
+			
+			if (gp.objetos[i] != null) {
+				
+				//Conseguir la posicion del area solida de la entidad
+				entidad.areaSolida.x = entidad.mundoX + entidad.areaSolida.x;
+				entidad.areaSolida.y = entidad.mundoY + entidad.areaSolida.y;
+				
+				//Conseguir la posicion del area solida del objeto
+				gp.objetos[i].areaSolida.x = gp.objetos[i].mundoX + gp.objetos[i].areaSolida.x;
+				gp.objetos[i].areaSolida.y = gp.objetos[i].mundoY + gp.objetos[i].areaSolida.y;
+				
+				switch (entidad.direction) {
+				
+				case "up":
+					entidad.areaSolida.y -= entidad.speed;
+					
+					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
+						
+						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
+						
+						if (jugador == true) {index = i;}
+						
+					}
+					break;
+				case "down":
+					entidad.areaSolida.y += entidad.speed;
+					
+					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
+						
+						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
+						
+						if (jugador == true) {index = i;}
+						
+					}
+					break;
+				case "left":
+					entidad.areaSolida.x -= entidad.speed;
+					
+					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
+						
+						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
+						
+						if (jugador == true) {index = i;}
+						
+					}
+					break;
+				case "right":
+					entidad.areaSolida.x += entidad.speed;
+					
+					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
+						
+						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
+						
+						if (jugador == true) {index = i;}
+						
+					}
+					break;
+				
+				}
+				
+				entidad.areaSolida.x = entidad.areaSolidaDefaultX;
+				entidad.areaSolida.y = entidad.areaSolidaDefaultY;
+				gp.objetos[i].areaSolida.x = gp.objetos[i].areaSolidaDefaultX;
+				gp.objetos[i].areaSolida.y = gp.objetos[i].areaSolidaDefaultY;
+				
+			}
+			
+		}
+		
+		return index;
+	}
+	
 }

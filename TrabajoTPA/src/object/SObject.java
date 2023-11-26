@@ -1,6 +1,7 @@
 package object;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.PanelDeJuego;
@@ -14,6 +15,9 @@ public class SObject {
 	public String nombre;
 	public boolean colision = false;
 	public int mundoX, mundoY;
+	public Rectangle areaSolida = new Rectangle (0, 0, 48, 48);
+	public int areaSolidaDefaultX = 0;
+	public int areaSolidaDefaultY = 0;
 	
 	/**
 	 * Dibuja los objetos en el mundo

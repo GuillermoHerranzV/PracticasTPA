@@ -26,7 +26,7 @@ public class TileManager {
 		mapTileNum = new int [gp.maxColMundo] [gp.maxRowMundo];
 		
 		getTileImage ();
-		loadMap ("/maps/wildernesslevel1.txt");
+		loadMap ("/maps/world01.txt");
 	}
 	
 	/**

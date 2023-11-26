@@ -1,5 +1,6 @@
 package main;
 
+import object.OBJ_Botas;
 import object.OBJ_cofre;
 import object.OBJ_llave;
 import object.OBJ_puerta;
@@ -49,6 +50,11 @@ public class AssetSetter {
 		gp.objetos [6] = new OBJ_cofre ();
 		gp.objetos [6].mundoX = 10 * gp.tamFinalCasilla;
 		gp.objetos [6].mundoY = 7 * gp.tamFinalCasilla;
+		
+		gp.objetos [7] = new OBJ_Botas ();
+		gp.objetos [7].mundoX = 37 * gp.tamFinalCasilla;
+		gp.objetos [7].mundoY = 42 * gp.tamFinalCasilla;
+		
 		
 	}
 	

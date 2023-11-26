@@ -31,19 +31,26 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public final int altoVentana = tamFinalCasilla * filasPantalla; //432 de alto (tamanio de la casilla por el numero de casillas = 48 * 9)
 	
 	//Settings del mundo
-	public final int maxColMundo = 25;
-	public final int maxRowMundo = 25;
-	public final int anchoMundo = tamFinalCasilla * maxColMundo;
-	public final int altoMundo = tamFinalCasilla * maxRowMundo;
+	public final int maxColMundo = 50;
+	public final int maxRowMundo = 50;
 	
-	//Frames por segundo del juego
+	//Frames por segundo del juego / FPS
 	int FPS = 60;
 	
+	//Sistema
 	TileManager tileM = new TileManager (this);
 	Controles key = new Controles ();
-	Thread gameThread;
+	Sonido musica = new Sonido ();
+	Sonido efectosSonido = new Sonido ();
 	public Colisiones cChecker = new Colisiones (this);
 	public AssetSetter aSetter = new AssetSetter (this);
+	
+	//UI
+	public UI ui = new UI (this);
+	
+	Thread gameThread;
+	
+	//Entidad y objetos
 	public Player player = new Player (this, key);
 	public SObject objetos [] = new SObject [10];
 	
@@ -73,6 +80,8 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public void setupGame () {
 		
 		aSetter.setObj();
+		
+		playMusic (0);
 		
 	}
 	
@@ -159,7 +168,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		tileM.draw(g2);
 		
 		//Objetos
-		/*for (int i = 0; i < objetos.length; i++) {
+		for (int i = 0; i < objetos.length; i++) {
 			
 			if (objetos [i] != null) {
 				
@@ -167,13 +176,37 @@ public class PanelDeJuego extends JPanel implements Runnable{
 				
 			}
 			
-		}*/
+		}
 		
 		//Jugador
 		player.draw(g2);
 		
+		//UI
+		ui.draw(g2);
+		
 		//Libera la memoria que se este usando
 		g2.dispose();
+		
+	}
+	
+	public void playMusic (int i) {
+		
+		musica.setFile (i);
+		musica.play ();
+		musica.loop ();
+		
+	}
+	
+	public void stopMusic () {
+		
+		musica.stop();
+		
+	}
+	
+	public void efectoSonido (int i) {
+		
+		efectosSonido.setFile(i);
+		efectosSonido.play();
 		
 	}
 	

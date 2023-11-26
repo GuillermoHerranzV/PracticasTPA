@@ -19,7 +19,7 @@ public class OBJ_puerta extends SObject{
 			}catch (IOException e) {
 			e.printStackTrace();
 			}
-		
+			colision = true;
 	}
 	
 }

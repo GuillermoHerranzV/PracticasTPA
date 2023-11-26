@@ -24,6 +24,8 @@ public class Player extends Entity{
     
     public final int pantallaX;
     public final int pantallaY;
+    
+    public int tieneLlave = 0;
 
     public Player(PanelDeJuego gp, Controles key) {
     	
@@ -39,6 +41,8 @@ public class Player extends Entity{
     	areaSolida.y = 32;
     	areaSolida.width = 16;
     	areaSolida.height = 16;
+    	areaSolidaDefaultX = areaSolida.x;
+    	areaSolidaDefaultY = areaSolida.y;
     	
     	setDefaultValues ();
     	getPlayerImage();
@@ -88,6 +92,10 @@ public class Player extends Entity{
     		colisionOn = false;
     		gp.cChecker.comprobarCasilla (this);
     		
+    		//Comprobar colision con objetos
+    		int indexObj = gp.cChecker.comprobarObjeto(this, true);
+    		cogerObjeto (indexObj);
+    		
     		//Si no hay colision el jugador se puede mover
     		if (colisionOn == false) {
     			
@@ -119,6 +127,50 @@ public class Player extends Entity{
         		}
         		spriteCounter = 0;
         	}
+    		
+    	}
+    	
+    }
+    
+    public void cogerObjeto (int index) {
+    	
+    	if (index != 999) {
+    		
+    		String nombreObj = gp.objetos[index].nombre;
+    		
+    		switch (nombreObj) {
+    		
+    		case "Llave":
+    			gp.efectoSonido(1);
+    			tieneLlave ++;
+    			gp.objetos[index] = null;
+    			gp.ui.mostrarMensaje("Llave obtenida");
+    			break;
+    			
+    		case "Puerta":
+    			if (tieneLlave > 0) {
+    				gp.efectoSonido(3);
+    				gp.objetos[index] = null;
+    				tieneLlave --;
+    				gp.ui.mostrarMensaje("Puerta abierta");
+    			}else {
+    				gp.ui.mostrarMensaje("No tienes mas llaves");
+    			}
+    			break;
+    			
+    		case "Botas":
+    			gp.efectoSonido(2);
+    			speed += 1;
+    			gp.objetos[index] = null;
+    			gp.ui.mostrarMensaje("Ahora eres mas rapido!!!");
+    			break;
+    		case "Cofre":
+    			gp.ui.juegoTerminado = true;
+    			gp.stopMusic();
+    			gp.efectoSonido(4);
+    			break;
+    			
+    		}
     		
     	}
     	
