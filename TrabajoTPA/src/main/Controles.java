@@ -1,5 +1,7 @@
 package main;
 import java.awt.event.KeyEvent;
+import monsters.Monster;
+import entity.Player;
 
 import java.awt.event.KeyListener;
 
@@ -16,6 +18,8 @@ public class Controles implements KeyListener{
 		
 		this.gp = gp;
 	}
+	
+
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -38,14 +42,14 @@ public class Controles implements KeyListener{
 						gp.ui.commandNum = 2;
 					}
 				}
-				
+						
 				if (code == KeyEvent.VK_S) {
 					gp.ui.commandNum++;
 					if(gp.ui.commandNum > 2) {
 						gp.ui.commandNum = 0;
 					}
 				}
-				
+						
 				if (code == KeyEvent.VK_ENTER) {
 					if(gp.ui.commandNum == 0) {
 						gp.ui.titleScreenState = 1;
@@ -57,7 +61,7 @@ public class Controles implements KeyListener{
 						System.exit(0);
 					}
 				}
-				
+						
 			}
 			else if(gp.ui.titleScreenState == 1) {
 				if (code == KeyEvent.VK_W) {
@@ -66,14 +70,14 @@ public class Controles implements KeyListener{
 						gp.ui.commandNum = 3;
 					}
 				}
-				
+						
 				if (code == KeyEvent.VK_S) {
 					gp.ui.commandNum++;
 					if(gp.ui.commandNum > 3) {
 						gp.ui.commandNum = 0;
 					}
 				}
-				
+						
 				if (code == KeyEvent.VK_ENTER) {
 					if(gp.ui.commandNum == 0) {
 						System.out.println("Se un caballero");
@@ -97,121 +101,38 @@ public class Controles implements KeyListener{
 				}
 			}
 		}
-		
+				
 		//COMBAT STATE
 		if (gp.gameState == gp.combatState) {
 			
-			if( == 0) {						
-				if (code == KeyEvent.VK_W) {
-					gp.ui.commandNum--;
-					if(gp.ui.commandNum < 0) {
-						gp.ui.commandNum = 2;
-					}
+			if (code == KeyEvent.VK_W) {
+				gp.ui.commandNumCombat--;
+				if(gp.ui.commandNumCombat < 0) {
+					gp.ui.commandNumCombat = 3;
 				}
-				
-				if (code == KeyEvent.VK_S) {
-					gp.ui.commandNum++;
-					if(gp.ui.commandNum > 2) {
-						gp.ui.commandNum = 0;
-					}
-				}
-				
-				if (code == KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum == 0) {
-						gp.ui.titleScreenState = 1;
-					}
-					if(gp.ui.commandNum == 1) {
-						//mas tarde añadimos
-					}
-					if(gp.ui.commandNum == 2) {
-						System.exit(0);
-					}
-				}
-				
-			} else if(gp.ui.titleScreenState == 0) {						
-				if (code == KeyEvent.VK_W) {
-					gp.ui.commandNum--;
-					if(gp.ui.commandNum < 0) {
-						gp.ui.commandNum = 2;
-					}
-				}
-				
-				if (code == KeyEvent.VK_S) {
-					gp.ui.commandNum++;
-					if(gp.ui.commandNum > 2) {
-						gp.ui.commandNum = 0;
-					}
-				}
-				
-				if (code == KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum == 0) {
-						gp.ui.titleScreenState = 1;
-					}
-					if(gp.ui.commandNum == 1) {
-						//mas tarde añadimos
-					}
-					if(gp.ui.commandNum == 2) {
-						System.exit(0);
-					}
-				}
-				
-			} else if(gp.ui.titleScreenState == 0) {						
-				if (code == KeyEvent.VK_W) {
-					gp.ui.commandNum--;
-					if(gp.ui.commandNum < 0) {
-						gp.ui.commandNum = 2;
-					}
-				}
-				
-				if (code == KeyEvent.VK_S) {
-					gp.ui.commandNum++;
-					if(gp.ui.commandNum > 2) {
-						gp.ui.commandNum = 0;
-					}
-				}
-				
-				if (code == KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum == 0) {
-						gp.ui.titleScreenState = 1;
-					}
-					if(gp.ui.commandNum == 1) {
-						//mas tarde añadimos
-					}
-					if(gp.ui.commandNum == 2) {
-						System.exit(0);
-					}
-				}
-				
-			} else if(gp.ui.titleScreenState == 0) {						
-				if (code == KeyEvent.VK_W) {
-					gp.ui.commandNum--;
-					if(gp.ui.commandNum < 0) {
-						gp.ui.commandNum = 2;
-					}
-				}
-				
-				if (code == KeyEvent.VK_S) {
-					gp.ui.commandNum++;
-					if(gp.ui.commandNum > 2) {
-						gp.ui.commandNum = 0;
-					}
-				}
-				
-				if (code == KeyEvent.VK_ENTER) {
-					if(gp.ui.commandNum == 0) {
-						gp.ui.titleScreenState = 1;
-					}
-					if(gp.ui.commandNum == 1) {
-						//mas tarde añadimos
-					}
-					if(gp.ui.commandNum == 2) {
-						System.exit(0);
-					}
-				}
-				
 			}
-			
+					
+			if (code == KeyEvent.VK_S) {
+				gp.ui.commandNumCombat++;
+				if(gp.ui.commandNumCombat > 3) {
+					gp.ui.commandNumCombat = 0;
+				}
+			}
+					
+			if (code == KeyEvent.VK_ENTER && gp.combate.turno == 0) {
+				if(gp.ui.commandNumCombat == 0) {
+					gp.combate.pelea();
+				}else if(gp.ui.commandNumCombat == 1) {
+					gp.combate.pelea();
+				}else if(gp.ui.commandNumCombat == 2) {
+					gp.combate.pelea();
+				}else if (gp.ui.commandNumCombat == 3) {
+					gp.combate.pelea();
+				}
+			}
+					
 		}
+		
 		
 		//Play State
 		if (gp.gameState == gp.playState) {

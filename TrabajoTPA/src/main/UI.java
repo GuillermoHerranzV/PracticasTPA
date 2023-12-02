@@ -68,6 +68,8 @@ public class UI {
 		
 		if (gp.gameState == gp.combatState) {
 			drawCombatScreen (gp.player.monstruoIndex);
+			g2.drawString(gp.player.hp + "/" + gp.player.maxhp, 50, 50);
+			
 		}
 		
 	}
@@ -179,12 +181,13 @@ public class UI {
 		int y = gp.altoVentana/2;
 		
 		g2.drawString(text, x, y);
+		
 	}
 	
 	public void drawCombatScreen (int i) {
-		
 		g2.setColor(new Color(0, 0, 0));
 		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
+		String text = "";
 		
 		//IMAGEN DEL PESONAJE		
 		int x = gp.anchoVentana / 6;
@@ -192,43 +195,45 @@ public class UI {
 		g2.drawImage(gp.player.down1, x, y, gp.tamFinalCasilla*2, gp.tamFinalCasilla*2, null);
 		
 		//IMAGEN DEL ENEMIGO
-		x =gp.anchoVentana/2 + gp.anchoVentana/6;
-		y = gp.altoVentana/2 - 200;
+		x = gp.anchoVentana/4 + gp.anchoVentana/2;
+		y = gp.altoVentana/2 - gp.altoVentana/4;
 		g2.drawImage(gp.monstruos[i].down1, x, y, gp.tamFinalCasilla*2, gp.tamFinalCasilla*2, null);
 		
+		//COSAS DEL COMBATE
+		
 		g2.setColor(Color.white);
-		g2.setFont(arial_20);
+		g2.setFont(g2.getFont().deriveFont(20F));
 		
-		String text = "Atacar";
-		x = gp.anchoVentana/2 - gp.anchoVentana /4;
-		y = gp.altoVentana/4 + gp.anchoVentana /4;		
+		text = "ATACAR";
+		x = gp.anchoVentana/6;
+		y = gp.altoVentana/4 * 3;
 		g2.drawString(text, x, y);
-		if (commandNumCombat == 0) {
-			g2.drawString(">", x - 30, y);
+		if(commandNumCombat == 0) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
 		}
 		
-		text = "Ataque especial";
-		x = gp.anchoVentana/2 - gp.anchoVentana /4;
-		y = gp.altoVentana/4 + gp.anchoVentana /3;		
+		text = "USAR OBJETO";
+		x = gp.anchoVentana/5 * 3;
+		y = gp.altoVentana/4 * 3;
 		g2.drawString(text, x, y);
-		if (commandNumCombat == 1) {
-			g2.drawString(">", x - 30, y);
+		if(commandNumCombat == 1) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
 		}
 		
-		text = "Objeto";
-		x = gp.anchoVentana - gp.anchoVentana /3;
-		y = gp.altoVentana/4 + gp.anchoVentana /4;		
+		text = "ATAQUE ESPECIAL";
+		x = gp.anchoVentana/6;
+		y = gp.altoVentana/4 * (3) + gp.altoVentana/20;
 		g2.drawString(text, x, y);
-		if (commandNumCombat == 2) {
-			g2.drawString(">", x - 30, y);
+		if(commandNumCombat == 2) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
 		}
 		
-		text = "Huir";
-		x = gp.anchoVentana - gp.anchoVentana /3;
-		y = gp.altoVentana/4 + gp.anchoVentana /3;		
+		text = "HUIR";
+		x = gp.anchoVentana/5 * 3;
+		y = gp.altoVentana/4 * 3 + gp.altoVentana/20;
 		g2.drawString(text, x, y);
-		if (commandNumCombat == 3) {
-			g2.drawString(">", x - 30, y);
+		if(commandNumCombat == 3) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
 		}
 		
 	}
@@ -241,12 +246,11 @@ public class UI {
 		int width = gp.anchoVentana - (gp.tamFinalCasilla *4);
 		int height = gp.tamFinalCasilla *5;
 		
-		drawDialogSubWindow (x, y, width, height);
+		drawSubWindow (x, y, width, height);
 		
 		x += gp.tamFinalCasilla;
 		y += gp.tamFinalCasilla;
 		
-		//CAMBIA EL DIALOGO DE LINEA CUANDO UTILIZAS /n
 		for (String line : currentDialog.split("/n")) {
 			g2.drawString(line, x, y);
 			y += 25;
@@ -254,7 +258,7 @@ public class UI {
 		
 	}
 	
-	public void drawDialogSubWindow (int x, int y, int width, int height) {
+	public void drawSubWindow (int x, int y, int width, int height) {
 		
 		//Los 3 primeros numeros son RGB y el cuarto es la opacidad
 		Color c = new Color (0, 0, 0, 150);
@@ -268,21 +272,6 @@ public class UI {
 		g2.drawRoundRect(x +5, y +5, width -10, height -10, 25, 25);
 		
 	}
-	
-	/*public void drawCombatSubWindow (int x, int y, int width, int height) {
-		
-		//Los 3 primeros numeros son RGB y el cuarto es la opacidad
-		Color c = new Color (123, 43, 211, 0);
-		g2.setColor(c);
-		g2.fillRoundRect(x, y, width, height, 35, 35);
-		
-		c = new Color (0, 0, 0);
-		g2.setColor(c);
-		//Linea que rodea el recuadro que imprime g2
-		g2.setStroke(new BasicStroke (5));
-		g2.drawRoundRect(x +5, y +5, width -10, height -10, 25, 25);
-		
-	}*/
 	
 	public int getXforCenteredText(String text) {
 		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

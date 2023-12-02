@@ -12,8 +12,7 @@ public class Monster extends Entity {
 	
     public Monster(PanelDeJuego gp) {
     	
-    	super(gp);
-    	
+    	super(gp);    	
     	nombre = "Slime verde";
     	speed = 1;
         maxhp = 250;

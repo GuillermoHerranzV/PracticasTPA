@@ -228,8 +228,8 @@ public class Entity {
      * Funcion que utilizaremos para implementar el ataque
      * @return Retorna un string como mensaje de confirmacion
      */
-    public String attack() {
-        return ("Entity has attacked and reduced enemy's health by " + this.getDmg());
+    public void attack() {
+        System.out.println ("Has atacado");
     }
     
 }

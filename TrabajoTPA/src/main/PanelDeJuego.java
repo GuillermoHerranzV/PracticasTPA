@@ -47,6 +47,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	Sonido efectosSonido = new Sonido ();
 	public Colisiones cChecker = new Colisiones (this);
 	public AssetSetter aSetter = new AssetSetter (this);
+	public Combate combate = new Combate (this); 
 	
 	//UI
 	public UI ui = new UI (this);

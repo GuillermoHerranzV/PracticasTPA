@@ -12,7 +12,7 @@ public class Main {
 		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Cierra la ventana cuando se hace click en el boton de cerrar ("X")
-		window.setResizable (false); //Evita que se cambie el tamanio de la ventana
+		window.setResizable (false); //Evita que se cambie el tamaño de la ventana
 		window.setTitle("Wilderness"); //Pone el nombre de la ventana donde corresponde
 		
 		PanelDeJuego panelDeJuego = new PanelDeJuego ();

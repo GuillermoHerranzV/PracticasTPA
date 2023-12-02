@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import main.Controles;
 import main.PanelDeJuego;
 import main.UtilityTool;
+import main.Combate;
 
 /**
  * Clase jugador que hereda de Entity y amplia funcionalidades como las de interactuar...
@@ -22,12 +23,17 @@ public class Player extends Entity{
     
     PanelDeJuego gp;
     Controles key;
+    String name;
+    int mana = 100;
+    public int enemigosDerrotados = 0;
     
     public final int pantallaX;
     public final int pantallaY;
     
     public int tieneLlave = 0;
     public int monstruoIndex;
+    
+    int dmg;
 
     public Player(PanelDeJuego gp, Controles key) {
     	
@@ -37,8 +43,7 @@ public class Player extends Entity{
     	
     	//Posicion donde se dibuja el sprite del jugador
     	pantallaX = gp.anchoVentana /2 - (gp.tamFinalCasilla/2);
-    	pantallaY = gp.altoVentana /2 - (gp.tamFinalCasilla/2);
-    	
+    	pantallaY = gp.altoVentana /2 - (gp.tamFinalCasilla/2);    	
     	areaSolida = new Rectangle ();
     	areaSolida.x = 16;
     	areaSolida.y = 32;
@@ -47,11 +52,10 @@ public class Player extends Entity{
     	areaSolidaDefaultX = areaSolida.x;
     	areaSolidaDefaultY = areaSolida.y;
     	
-    	setDefaultValues ();
     	getPlayerImage();
-    	
         items = new ArrayList<String>();
         exp = 0.0;
+       	setDefaultValues();
     }
     
     public void setDefaultValues () {
@@ -60,11 +64,8 @@ public class Player extends Entity{
     	mundoY = gp.tamFinalCasilla * 21;
     	speed = 4;
     	direction = "down";
-    	
-    	//Estado del jugador
-    	maxhp  = 100;
-    	hp = maxhp;
-    	
+    	maxhp = 100;
+    	setHp(maxhp);
     }
     
     public void getPlayerImage () {
@@ -144,9 +145,9 @@ public class Player extends Entity{
     			}
     			
     		}
-        	
-    		gp.key.enterPressed = false;
     		
+    		gp.key.enterPressed = false;
+        	
         	spriteCounter ++;
         	if (spriteCounter > 15) {
         		if (spriteNum == 1) {
@@ -234,6 +235,7 @@ public class Player extends Entity{
     		
     		//hp -= 1;
     		gp.gameState = gp.combatState;
+    		
     	}
     	
     }
@@ -308,16 +310,40 @@ public class Player extends Entity{
         items.add(item);
     }
     
-    public void interact() {
-        
-    }
-    
-    public void flee() {
-        
-    }
-    
     public void useItem() {
-        
+        System.out.println("Has usado un objeto");
+    }
+    
+    public void specialAttack () {
+    	System.out.println("Has usado el ataque especial");
+    }
+    
+    public void setHp(int h) {
+    	hp = h;
+    }
+    
+    public int getHp() {
+    	return hp;
+    }
+    
+    public void setDmg(int d) {
+    	dmg = d;
+    }
+    
+    public int getDmg() {
+    	return dmg;
+    }
+    
+    public String getName() {
+    	return name;
+    }
+    
+    public int getMana() {
+    	return mana;
+    }
+    
+    public void setMana(int a) {
+    	mana = a;
     }
     
     /**
