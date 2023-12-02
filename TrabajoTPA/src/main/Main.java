@@ -18,7 +18,7 @@ public class Main {
 		PanelDeJuego panelDeJuego = new PanelDeJuego ();
 		window.add(panelDeJuego);
 		
-		window.pack (); //Hace que la ventana se ajuste a sus componentes en este caso el panel de juego
+		 window.pack (); //Hace que la ventana se ajuste a sus componentes en este caso el panel de juego
 		
 		window.setLocationRelativeTo (null);
 		window.setVisible(true);

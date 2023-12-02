@@ -4,21 +4,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entity.Entity;
+import main.PanelDeJuego;
+
 /**
  * Clase cofre que hereda de SObject
  */
-public class OBJ_cofre extends SObject{
+public class OBJ_cofre extends Entity{
 	
-	public OBJ_cofre () {
+	public OBJ_cofre (PanelDeJuego gp) {
+		super (gp);	
 		
-			nombre = "Cofre";
-			try {
-			
-				image = ImageIO.read(getClass().getResourceAsStream("/objects/chest.png"));
-			
-			}catch (IOException e) {
-			e.printStackTrace();
-			}
+		nombre = "Cofre";
+		down1 = setup ("/objects/chest");
 		
 	}
 

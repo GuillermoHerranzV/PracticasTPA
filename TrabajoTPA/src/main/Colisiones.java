@@ -15,6 +15,7 @@ public class Colisiones {
 		
 	}
 	
+	
 	/**
 	 * Funcion que recibe una entidad por parametro de entrada y en funcion de hacia donde se mueve la entidad (en este caso el jugador) comprueba las esquinas de su hitbox para decidir si la casilla hacia donde quiere moverse se puede atravesar o no
 	 * @param entity
@@ -75,6 +76,114 @@ public class Colisiones {
 		
 	}
 	
+	//COMPROBACION DE COLISIONES
+	public int comprobarEntidad(Entity entidad, Entity[] target) {
+		
+		int index = 999;
+		
+		for (int i = 0; i < target.length; i++) {
+			
+			if (target[i] != null) {
+				
+				//Conseguir la posicion del area solida de la entidad
+				entidad.areaSolida.x = entidad.mundoX + entidad.areaSolida.x;
+				entidad.areaSolida.y = entidad.mundoY + entidad.areaSolida.y;
+				
+				//Conseguir la posicion del area solida del objeto
+				target[i].areaSolida.x = target[i].mundoX + target[i].areaSolida.x;
+				target[i].areaSolida.y = target[i].mundoY + target[i].areaSolida.y;
+				
+				switch (entidad.direction) {
+				case "up": entidad.areaSolida.y -= entidad.speed; break;
+				case "down": entidad.areaSolida.y += entidad.speed; break;
+				case "left": entidad.areaSolida.x -= entidad.speed; break;
+				case "right": entidad.areaSolida.x += entidad.speed; break;
+				}
+				
+				if (entidad.areaSolida.intersects(target[i].areaSolida)) {
+					
+					if (target[i] != entidad) {
+						
+						entidad.colisionOn = true;
+						index = i;
+						
+					}
+					
+				}
+				
+				entidad.areaSolida.x = entidad.areaSolidaDefaultX;
+				entidad.areaSolida.y = entidad.areaSolidaDefaultY;
+				target[i].areaSolida.x = target[i].areaSolidaDefaultX;
+				target[i].areaSolida.y = target[i].areaSolidaDefaultY;
+				
+			}
+			
+		}
+		
+		return index;
+	}
+	
+	public void comprobarJugador(Entity entidad) {
+		
+		//Conseguir la posicion del area solida de la entidad
+		entidad.areaSolida.x = entidad.mundoX + entidad.areaSolida.x;
+		entidad.areaSolida.y = entidad.mundoY + entidad.areaSolida.y;
+		
+		//Conseguir la posicion del area solida del objeto
+		gp.player.areaSolida.x = gp.player.mundoX + gp.player.areaSolida.x;
+		gp.player.areaSolida.y = gp.player.mundoY + gp.player.areaSolida.y;
+		
+		switch (entidad.direction) {
+		
+		case "up":
+			entidad.areaSolida.y -= entidad.speed;
+			
+			if (entidad.areaSolida.intersects(gp.player.areaSolida)) {
+				
+				entidad.colisionOn = true;
+				
+				
+			}
+			break;
+		case "down":
+			entidad.areaSolida.y += entidad.speed;
+			
+			if (entidad.areaSolida.intersects(gp.player.areaSolida)) {
+				
+				entidad.colisionOn = true;
+				
+				
+			}
+			break;
+		case "left":
+			entidad.areaSolida.x -= entidad.speed;
+			
+			if (entidad.areaSolida.intersects(gp.player.areaSolida)) {
+				
+				entidad.colisionOn = true;
+				
+				
+			}
+			break;
+		case "right":
+			entidad.areaSolida.x += entidad.speed;
+			
+			if (entidad.areaSolida.intersects(gp.player.areaSolida)) {
+				
+				entidad.colisionOn = true;
+								
+			}
+			break;
+		
+		}
+		
+		entidad.areaSolida.x = entidad.areaSolidaDefaultX;
+		entidad.areaSolida.y = entidad.areaSolidaDefaultY;
+		gp.player.areaSolida.x = gp.player.areaSolidaDefaultX;
+		gp.player.areaSolida.y = gp.player.areaSolidaDefaultY;
+		
+	}
+	
 	public int comprobarObjeto (Entity entidad, boolean jugador) {
 		
 		int index = 999;
@@ -93,51 +202,18 @@ public class Colisiones {
 				
 				switch (entidad.direction) {
 				
-				case "up":
-					entidad.areaSolida.y -= entidad.speed;
-					
-					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
-						
-						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
-						
-						if (jugador == true) {index = i;}
-						
-					}
-					break;
-				case "down":
-					entidad.areaSolida.y += entidad.speed;
-					
-					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
-						
-						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
-						
-						if (jugador == true) {index = i;}
-						
-					}
-					break;
-				case "left":
-					entidad.areaSolida.x -= entidad.speed;
-					
-					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
-						
-						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
-						
-						if (jugador == true) {index = i;}
-						
-					}
-					break;
-				case "right":
-					entidad.areaSolida.x += entidad.speed;
-					
-					if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
-						
-						if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
-						
-						if (jugador == true) {index = i;}
-						
-					}
-					break;
+				case "up": entidad.areaSolida.y -= entidad.speed; break;
+				case "down": entidad.areaSolida.y += entidad.speed; break;
+				case "left": entidad.areaSolida.x -= entidad.speed; break;
+				case "right": entidad.areaSolida.x += entidad.speed; break;
+				}
 				
+				if (entidad.areaSolida.intersects(gp.objetos[i].areaSolida)) {
+					
+					if (gp.objetos[i].colision == true) {entidad.colisionOn = true;}
+					
+					if (jugador == true) {index = i;}
+					
 				}
 				
 				entidad.areaSolida.x = entidad.areaSolidaDefaultX;

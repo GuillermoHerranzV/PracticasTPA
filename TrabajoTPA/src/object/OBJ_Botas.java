@@ -4,19 +4,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class OBJ_Botas extends SObject{
+import entity.Entity;
+import main.PanelDeJuego;
 
-public OBJ_Botas () {
+public class OBJ_Botas extends Entity{
+
+	public OBJ_Botas (PanelDeJuego gp) {
+		super (gp);	
 		
 		nombre = "Botas";
-		try {
-			
-			image = ImageIO.read(getClass().getResourceAsStream("/objects/boots.png"));
-			
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
+		down1 = setup ("/objects/boots");
 		
 	}
-	
 }

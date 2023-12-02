@@ -4,22 +4,27 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entity.Entity;
+import main.PanelDeJuego;
+
 /**
  * Clase puerta que hereda de SObject
  */
-public class OBJ_puerta extends SObject{
-
-	public OBJ_puerta () {
+public class OBJ_puerta extends Entity{
+	
+	public OBJ_puerta (PanelDeJuego gp) {
+		super (gp);	
 		
-			nombre = "Puerta";
-			try {
-			
-				image = ImageIO.read(getClass().getResourceAsStream("/objects/door.png"));
-			
-			}catch (IOException e) {
-			e.printStackTrace();
-			}
-			colision = true;
+		nombre = "Puerta";
+		down1 = setup ("/objects/door");
+		colision = true;
+		
+		areaSolida.x = 0;
+		areaSolida.y = 16;
+		areaSolida.width = 48;
+		areaSolida.height = 32;
+		areaSolidaDefaultX = areaSolida.x;
+		areaSolidaDefaultY = areaSolida.y;
 	}
 	
 }

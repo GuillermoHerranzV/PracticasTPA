@@ -3,11 +3,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
 import entity.Player;
-import object.SObject;
 import tile.TileManager;
 
 /**
@@ -39,7 +42,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	
 	//Sistema
 	TileManager tileM = new TileManager (this);
-	Controles key = new Controles ();
+	public Controles key = new Controles (this);
 	Sonido musica = new Sonido ();
 	Sonido efectosSonido = new Sonido ();
 	public Colisiones cChecker = new Colisiones (this);
@@ -52,8 +55,10 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	
 	//Entidad y objetos
 	public Player player = new Player (this, key);
-	public SObject objetos [] = new SObject [10];
-	
+	public Entity objetos [] = new Entity [10];
+	public Entity npc[] = new Entity[10];
+	public Entity monstruos [] = new Entity [20];
+	ArrayList <Entity> listaEntidades = new ArrayList <> ();
 	
 	//Posiciones iniciales del jugador
 	int jugadorX = 100;
@@ -75,13 +80,29 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	}
 	
 	/**
+	 * Estado del juego(modo pausa etc)
+	 */
+	
+	public int gameState;
+	public final int titleState = 0;
+	public final int playState = 1;
+	public final int pauseState = 2;
+	public final int dialogState = 3;
+	public final int combatState = 4;
+	
+	
+	/**
 	 * Funcion que coloca los objetos en el mapa
 	 */
 	public void setupGame () {
 		
 		aSetter.setObj();
+		aSetter.setNPC();
+		aSetter.setMonstruo();
 		
-		playMusic (0);
+//		playMusic (0);
+		
+		gameState = titleState;
 		
 	}
 	
@@ -148,8 +169,32 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	 * Lo hace llamando a la funcion update de la clase Player
 	 */
 	public void update () {
-		
-		player.update();
+				
+		if(gameState == playState) {
+			//JUGADOR
+			player.update();
+			//NPC
+			for(int i = 0; i < npc.length; i++) {
+				
+				if(npc[i] != null) {
+					
+					npc[i].update();
+					
+				}
+			}
+			
+			for(int i = 0; i < monstruos.length; i++) {
+				
+				if(monstruos[i] != null) {
+					
+					monstruos[i].update();
+					
+				}
+			}
+		}
+		if(gameState == pauseState) {
+			// nada
+		}
 		
 	}
 	
@@ -164,29 +209,72 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		// Amplia la funcionalidad de la clase Graphics
 		Graphics2D g2 = (Graphics2D)g;
 		
-		//Tile o casilla
-		tileM.draw(g2);
-		
-		//Objetos
-		for (int i = 0; i < objetos.length; i++) {
+		if(gameState == titleState) {
 			
-			if (objetos [i] != null) {
-				
-				objetos[i].draw(g2,  this);
-				
-			}
+			ui.draw(g2);
 			
 		}
 		
-		//Jugador
-		player.draw(g2);
-		
-		//UI
-		ui.draw(g2);
-		
-		//Libera la memoria que se este usando
-		g2.dispose();
-		
+		else {
+			
+			//Tile o casilla
+			tileM.draw(g2);
+			
+			//Agregar todas las entidades a la lista
+			listaEntidades.add(player);
+			
+			for (int i = 0; i < npc.length; i++) {
+				
+				if (npc[i] != null) {
+					listaEntidades.add(npc [i]);
+				}
+				
+			}
+			
+			for (int i = 0; i < objetos.length; i++) {
+				
+				if (objetos [i] != null) {
+					listaEntidades.add(objetos [i]);
+				}
+				
+			}
+			
+			for (int i = 0; i < monstruos.length; i++) {
+				
+				if (monstruos [i] != null) {
+					listaEntidades.add(monstruos [i]);
+				}
+				
+			}
+			
+			//Ordenar la lista
+			Collections.sort(listaEntidades, new Comparator <Entity>() {
+
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					
+					int resultado = Integer.compare(e1.mundoY, e2.mundoY);
+					
+					return resultado;
+				}
+				
+			});
+			
+			//Dibujar las entidades
+			for (int i = 0; i < listaEntidades.size(); i++) {
+				listaEntidades.get(i).draw(g2);
+			}
+			
+			//Vaciar la lista
+			listaEntidades.clear();
+			
+			//UI
+			ui.draw(g2);
+			
+			//Libera la memoria que se este usando
+			g2.dispose();
+			
+		}
 	}
 	
 	public void playMusic (int i) {

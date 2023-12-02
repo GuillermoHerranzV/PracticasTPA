@@ -4,21 +4,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entity.Entity;
+import main.PanelDeJuego;
+
 /**
  * Clase llave que hereda de SObject
  */
-public class OBJ_llave extends SObject{
+public class OBJ_llave extends Entity{
 
-	public OBJ_llave () {
+	public OBJ_llave (PanelDeJuego gp) {
+		super (gp);	
 		
 		nombre = "Llave";
-		try {
-			
-			image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
-			
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
+		down1 = setup ("/objects/key");
 		
 	}
 	

@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import main.Controles;
 import main.PanelDeJuego;
+import main.UtilityTool;
 
 /**
  * Clase jugador que hereda de Entity y amplia funcionalidades como las de interactuar...
@@ -26,9 +27,11 @@ public class Player extends Entity{
     public final int pantallaY;
     
     public int tieneLlave = 0;
+    public int monstruoIndex;
 
     public Player(PanelDeJuego gp, Controles key) {
     	
+    	super(gp);
     	this.gp = gp;
     	this.key = key;
     	
@@ -58,30 +61,46 @@ public class Player extends Entity{
     	speed = 4;
     	direction = "down";
     	
+    	//Estado del jugador
+    	maxhp  = 100;
+    	hp = maxhp;
+    	
     }
     
     public void getPlayerImage () {
     	
-    	try {
-    		
-    		up1 = ImageIO.read (getClass().getResourceAsStream("/player/boy_up_1.png"));
-    		up2 = ImageIO.read (getClass().getResourceAsStream("/player/boy_up_2.png"));
-    		down1 = ImageIO.read (getClass().getResourceAsStream("/player/boy_down_1.png"));
-    		down2 = ImageIO.read (getClass().getResourceAsStream("/player/boy_down_2.png"));
-    		left1 = ImageIO.read (getClass().getResourceAsStream("/player/boy_left_1.png"));
-    		left2 = ImageIO.read (getClass().getResourceAsStream("/player/boy_left_2.png"));
-    		right1 = ImageIO.read (getClass().getResourceAsStream("/player/boy_right_1.png"));
-    		right2 = ImageIO.read (getClass().getResourceAsStream("/player/boy_right_2.png"));
-    		
-    	}catch (IOException e) {
-    		e.printStackTrace();
-    	}
+    	up1 = setup("boy_up_1");
+    	up2 = setup("boy_up_2");
+    	down1 = setup("boy_down_1");
+    	down2 = setup("boy_down_2");
+    	left1 = setup("boy_left_1");
+    	left2 = setup("boy_left_2");
+    	right1 = setup("boy_right_1");
+    	right2 = setup("boy_right_2");
+
     	
     }
     
+    public BufferedImage setup(String imageName) {
+    	
+    	UtilityTool uTool = new UtilityTool();
+    	BufferedImage scaledImage = null;
+    	
+    	try {
+    		
+    		scaledImage = ImageIO.read (getClass().getResourceAsStream("/player/" + imageName + ".png"));
+    		scaledImage = uTool.scaleImage(scaledImage, gp.tamFinalCasilla, gp.tamFinalCasilla);
+    		
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return scaledImage;
+    }
+
     public void update () {
     	
-    	if (key.arriba == true || key.abajo == true || key.izq == true || key.der == true) {
+    	if (key.arriba == true || key.abajo == true || key.izq == true || key.der == true || key.enterPressed == true) {
     		
     		if (key.arriba == true) {direction = "up";
     		}else if (key.abajo == true) {direction = "down";
@@ -96,8 +115,16 @@ public class Player extends Entity{
     		int indexObj = gp.cChecker.comprobarObjeto(this, true);
     		cogerObjeto (indexObj);
     		
+    		//COMPROBAR COLISION DE NPC
+    		int npcIndex = gp.cChecker.comprobarEntidad(this, gp.npc);
+    		interactNPC(npcIndex);
+    		
+    		//COMPROBAR COLISION ENEMIGO
+    		monstruoIndex = gp.cChecker.comprobarEntidad(this, gp.monstruos);
+    		contactMonster (monstruoIndex);
+    		
     		//Si no hay colision el jugador se puede mover
-    		if (colisionOn == false) {
+    		if (colisionOn == false && key.enterPressed == false) {
     			
     			switch (direction) {
     			
@@ -118,6 +145,8 @@ public class Player extends Entity{
     			
     		}
         	
+    		gp.key.enterPressed = false;
+    		
         	spriteCounter ++;
         	if (spriteCounter > 15) {
         		if (spriteNum == 1) {
@@ -176,6 +205,39 @@ public class Player extends Entity{
     	
     }
     
+    public void interactNPC(int i) {
+		
+		if(i != 999) {
+			if (gp.key.enterPressed == true) {
+				gp.gameState = gp.dialogState;
+				gp.npc[i].speak();
+			}
+		}
+		gp.key.enterPressed = false;
+	}
+    
+    public void interactMonster (int i) {
+    	
+    	if(i != 999) {
+			if (gp.key.enterPressed == true) {
+				gp.gameState = gp.dialogState;
+				gp.monstruos[i].speak();
+			}
+		}
+		gp.key.enterPressed = false;
+    	
+    }
+    
+    public void contactMonster (int i) {
+    
+    	if (i != 999) {
+    		
+    		//hp -= 1;
+    		gp.gameState = gp.combatState;
+    	}
+    	
+    }
+    
     public void draw (Graphics2D g2) {
     	
     	//g2.setColor(Color.white);
@@ -222,7 +284,7 @@ public class Player extends Entity{
     	}
     	
     	//Dibuja el sprite
-    	g2.drawImage(image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
+    	g2.drawImage(image, pantallaX, pantallaY, null);
     	
     }
     
@@ -255,10 +317,6 @@ public class Player extends Entity{
     }
     
     public void useItem() {
-        
-    }
-    
-    public void gainXP() {
         
     }
     

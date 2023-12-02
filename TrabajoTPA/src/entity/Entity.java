@@ -1,28 +1,193 @@
 package entity;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import main.PanelDeJuego;
+import main.UtilityTool;
 
 /**
  * Clase base para todas las entidades del juego
  */
 public class Entity {
-    private int hp;
+    public int maxhp;
+    public int hp;
     private int dmg;
-    
+    PanelDeJuego gp;
     public int mundoX, mundoY;
     public int speed;
+    public int contadorAccion;
+    public String dialogues [] = new String [20];
+    int dialogIndex = 0;
     
     public int spriteCounter = 0;
     public int spriteNum = 1;
     
     public int areaSolidaDefaultX, areaSolidaDefaultY;
-    public Rectangle areaSolida;
+    public Rectangle areaSolida = new Rectangle(0, 0, 48, 48);
     public boolean colisionOn = false;
+    
+    public BufferedImage image;
+	public String nombre;
+	public boolean colision = false;
     
     //Utilizado para poder guardar las imagenes del juego
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public String direction;
+    public String direction = "down";
+    
+    public Entity(PanelDeJuego gp) {
+    	this.gp = gp;
+    }
+    
+    public void speak () {
+    	
+    	if (dialogues[dialogIndex] == null) {
+    		dialogIndex = 0;
+    	}
+    	gp.ui.currentDialog = dialogues[dialogIndex];
+    	dialogIndex ++;
+    	
+    	switch (gp.player.direction){
+    		
+    	case "up":
+    		direction = "down";
+    		break;
+    	case "down":
+    		direction = "up";
+    		break;
+    	case "left":
+    		direction = "right";
+    		break;
+    	case "right":
+    		direction = "left";
+    		break;
+    		
+    	}
+    	
+    }
+    
+    public void setAction() {
+    	
+    }
+    
+    public void update() {
+    	
+    	setAction();
+    	colisionOn = false;
+    	gp.cChecker.comprobarCasilla(this);
+    	gp.cChecker.comprobarObjeto(this, false);
+    	gp.cChecker.comprobarEntidad(this, gp.npc);
+    	gp.cChecker.comprobarEntidad(this, gp.monstruos);
+    	gp.cChecker.comprobarJugador(this);
+    	
+		if (colisionOn == false) {
+			
+			switch (direction) {
+			
+			case "up":
+				mundoY -= speed;
+				break;
+			case "down":
+				mundoY += speed;
+				break;
+			case "left":
+				mundoX -= speed;
+				break;
+			case "right":
+				mundoX += speed;
+				break;
+			
+			}
+			
+		}
+    	
+    	spriteCounter ++;
+    	if (spriteCounter > 15) {
+    		if (spriteNum == 1) {
+    			spriteNum = 2;
+    		}else if (spriteNum == 2) {
+    			spriteNum = 1;
+    		}
+    		spriteCounter = 0;
+    	}
+		
+	}
+    
+    public void draw(Graphics2D g2) {
+    	
+    	BufferedImage image = null;
+
+    	
+		int pantallaX = mundoX - gp.player.mundoX + gp.player.pantallaX;
+		int pantallaY = mundoY - gp.player.mundoY + gp.player.pantallaY;
+		
+		if (mundoX + gp.tamFinalCasilla> gp.player.mundoX - gp.player.pantallaX && mundoX - gp.tamFinalCasilla < gp.player.mundoX + gp.player.pantallaX && mundoY + gp.tamFinalCasilla > gp.player.mundoY - gp.player.pantallaY && mundoY - gp.tamFinalCasilla < gp.player.mundoY + gp.player.pantallaY) {
+			
+			g2.drawImage(image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
+				    	
+	    	//Actualiza el sprite segun la direccion en la que nos movemos
+	    switch (direction) {
+	    	
+	    	case "up":
+	    		if (spriteNum == 1) {
+	    			image = up1;
+	    		}
+	    		if (spriteNum == 2) {
+	    			image = up2;
+	    		}
+	    		break;
+	    	case "down":
+	    		if (spriteNum == 1) {
+	    			image = down1;
+	    		}
+	    		if (spriteNum == 2) {
+	    			image = down2;
+	    		}
+	    		break;
+	    	case "left":
+	    		if (spriteNum == 1) {
+	    			image = left1;
+	    		}
+	    		if (spriteNum == 2) {
+	    			image = left2;
+	    		}
+	    		break;
+	    	case "right":
+	    		if (spriteNum == 1) {
+	    			image = right1;
+	    		}
+	    		if (spriteNum == 2) {
+	    			image = right2;
+	    		}
+	    		break;
+	    	
+	    	}
+	    	
+	    	//Dibuja el sprite
+	    	g2.drawImage(image, pantallaX, pantallaY, null);
+		}
+    }
+    
+    public BufferedImage setup(String imageName) {
+    	
+    	UtilityTool uTool = new UtilityTool();
+    	BufferedImage scaledImage = null;
+    	
+    	try {
+    		
+    		scaledImage = ImageIO.read (getClass().getResourceAsStream(imageName + ".png"));
+    		scaledImage = uTool.scaleImage(scaledImage, gp.tamFinalCasilla, gp.tamFinalCasilla);
+    		
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return scaledImage;
+    }
     
     public int getHp() {
         return hp;

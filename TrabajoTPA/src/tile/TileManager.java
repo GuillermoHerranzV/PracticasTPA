@@ -5,10 +5,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
 import main.PanelDeJuego;
+import main.UtilityTool;
 
 /**
  * Clase que gestiona las casillas que se representan en pantalla
@@ -34,34 +36,29 @@ public class TileManager {
 	 * Tambien se asigna true a las casillas que van a tener colision
 	 */
 	public void getTileImage () {
+					
+			setup(0, "grass", false);
+			setup(1, "wall", true);
+			setup(2, "water", true);
+			setup(3, "sand", false);
+			setup(4, "tree", true);
+			setup(5, "earth", false);
+		
+	}
+	
+	public void setup(int index, String imagePath, boolean collision) {
+		
+		UtilityTool uTool = new UtilityTool();
 		
 		try {
-			
-			tile [0] = new Tile ();
-			tile [0].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/grass.png"));
-			
-			tile [1] = new Tile ();
-			tile [1].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/wall.png"));
-			tile [1].collision = true;
-			
-			tile [2] = new Tile ();
-			tile [2].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/water.png"));
-			tile [2].collision = true;
-			
-			tile [3] = new Tile ();
-			tile [3].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/sand.png"));
-			
-			tile [4] = new Tile ();
-			tile [4].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/tree.png"));
-			tile [4].collision = true;
-			
-			tile [5] = new Tile ();
-			tile [5].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/earth.png"));
-			
-		}catch (IOException e) {
+			tile[index] = new Tile();
+					tile[index].image = ImageIO.read(getClass ().getResourceAsStream("/tiles/" + imagePath + ".png"));
+					tile[index].image = uTool.scaleImage(tile[index].image, gp.tamFinalCasilla, gp.tamFinalCasilla);
+					tile[index].collision = collision;
+
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -128,7 +125,7 @@ public class TileManager {
 			
 			if (mundoX + gp.tamFinalCasilla> gp.player.mundoX - gp.player.pantallaX && mundoX - gp.tamFinalCasilla < gp.player.mundoX + gp.player.pantallaX && mundoY + gp.tamFinalCasilla > gp.player.mundoY - gp.player.pantallaY && mundoY - gp.tamFinalCasilla < gp.player.mundoY + gp.player.pantallaY) {
 				
-				g2.drawImage(tile [tileNum].image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
+				g2.drawImage(tile [tileNum].image, pantallaX, pantallaY, null);
 				
 			}
 			
