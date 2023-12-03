@@ -91,6 +91,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public final int dialogState = 3;
 	public final int combatState = 4;
 	public final int derrotaState = 5;
+	public final int victoriaState = 6;
 	
 	
 	/**

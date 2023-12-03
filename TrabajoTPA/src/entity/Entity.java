@@ -39,7 +39,7 @@ public abstract class Entity {
 	public boolean colision = false;
     
     //Utilizado para poder guardar las imagenes del juego
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, estatico1, estatico2;
     public String direction = "down";
     
     public Entity(PanelDeJuego gp) {
@@ -144,6 +144,14 @@ public abstract class Entity {
 	    			image = right2;
 	    		}
 	    		break;
+	    	case "estatico":
+	    		if (spriteNum == 1) {
+	    			image = estatico1;
+	    		}
+	    		if (spriteNum == 2) {
+	    			image = estatico2;
+	    		}
+	    		break;
 	    	
 	    	}
 	    	
@@ -169,6 +177,10 @@ public abstract class Entity {
     	return scaledImage;
     }
     
+    public void specialAttack () {
+		setHp(getHp() + maxhp/2);
+	}
+    
     public int getHp() {
         return hp;
     }
@@ -177,7 +189,7 @@ public abstract class Entity {
         this.hp = health;
     }
     
-        public int getDmg() {
+    public int getDmg() {
         return dmg;
     }
     

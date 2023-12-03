@@ -82,6 +82,38 @@ public class UI {
 			drawDerrotaScreen();
 		}
 		
+		if (gp.gameState == gp.victoriaState) {
+			drawVictoriaScreen();
+		}
+		
+	}
+	
+	public void drawVictoriaScreen() {
+		g2.setColor(new Color(70, 120, 80));
+		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
+		//TITULO
+		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,48F));
+		String text = "VICTORIA! ENHORABUENA";
+		int x = getXforCenteredText(text);
+		int y = gp.tamFinalCasilla * 2;
+		
+		g2.setColor(Color.black);
+		g2.drawString(text, x+5, y+5);
+		
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+		
+		//MENU
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,28F));
+		
+		text = "SALIR";
+		x = getXforCenteredText(text);
+		y = y + gp.tamFinalCasilla + 40;
+		g2.drawString(text, x, y);
+		if(commandNumDerrota == 0) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
+		}
 	}
 	
 	public void drawDerrotaScreen() {

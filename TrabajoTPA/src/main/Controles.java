@@ -86,9 +86,9 @@ public class Controles implements KeyListener{
 					if(gp.ui.commandNum == 0) {
 						System.out.println("Ahora eres una espada magica! Mucha suerte con tus enfrentamientos y la busqueda de objetos. Tu habilidad especial hará el doble de daño");
 						gp.playMusic(0);
-						gp.player.hp = 200;
-						gp.player.maxhp = 200;
-						gp.player.maxdmg = 70;
+						gp.player.setHp(200);
+						gp.player.setmaxHp(200);
+						gp.player.setDmg(70);
 						gp.player.nombre = "Espada magica";
 						aux = 0;
 						gp.player.getPlayerImage(gp.ui.commandNum);
@@ -97,9 +97,9 @@ public class Controles implements KeyListener{
 					else if(gp.ui.commandNum == 1) {
 						System.out.println("Ahora eres un murcielago! Mucha suerte con tus enfrentamientos y la busqueda de objetos. Tu habilidad especial te cura al máximo.");
 						gp.playMusic(0);
-						gp.player.hp = 400;
-						gp.player.maxhp = 400;
-						gp.player.maxdmg = 35;
+						gp.player.setHp(400);
+						gp.player.setmaxHp(400);
+						gp.player.setDmg(35);
 						gp.player.nombre = "Tanque";
 						aux = 1;
 						gp.player.getPlayerImage(gp.ui.commandNum);
@@ -108,9 +108,9 @@ public class Controles implements KeyListener{
 					else if(gp.ui.commandNum == 2) {
 						System.out.println("Ahora eres un fantasma! Mucha suerte con tus enfrentamientos y la busqueda de objetos. Tu habilidad especial te curara al maximo si tu vida esta en menos de un 25% si no, hará el doble de daño");
 						gp.playMusic(0);
-						gp.player.hp = 300;
-						gp.player.maxhp = 300;
-						gp.player.maxdmg = 45;
+						gp.player.setHp(300);
+						gp.player.setmaxHp(300);
+						gp.player.setDmg(40);
 						gp.player.nombre = "Fantasma";
 						aux = 2;
 						gp.player.getPlayerImage(gp.ui.commandNum);
@@ -189,6 +189,14 @@ public class Controles implements KeyListener{
 				}
 								
 			}else if (code == KeyEvent.VK_G && gp.ui.commandNumDerrota == 1) {
+				System.exit(0);
+			}
+		}
+		
+		//VICTORIA STATE
+		if(gp.gameState == gp.victoriaState) {
+			gp.ui.drawVictoriaScreen();
+			if (code == KeyEvent.VK_ENTER) {
 				System.exit(0);
 			}
 		}

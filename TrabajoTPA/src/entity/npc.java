@@ -6,16 +6,33 @@ import main.PanelDeJuego;
 
 public class npc extends Entity {
 	
-	public npc(PanelDeJuego gp) {
-		super(gp);
-		
-		direction = "down";
-		speed = 1;
-		
-		getImagen();
-		setDialog ();
-	}
+	/* 
+	 * PATRON DE DISEÑO: SINGLETON
+	 * La clase tiene un constructor privado y un método estático getInstance que devuelve la única instancia de la clase npc.
+	 */
+    
+	private static npc instance;
+
+    
+    //CONSTRUCTOR PRIVADO
+    private npc(PanelDeJuego gp) {
+    	
+        super(gp);
+        direction = "down";
+        speed = 1;
+        getImagen();
+        setDialog();
+    }
+
+	//METODO ESTATICO
+    public static npc getInstance(PanelDeJuego gp) {
+        if (instance == null) {
+            instance = new npc(gp);
+        }
+        return instance;
+    }
 	
+    //RECOGE LAS IMAGENES DEL NPC
     public void getImagen () {
     	
     	up1 = setup("/npc/oldman_up_1");
@@ -29,15 +46,19 @@ public class npc extends Entity {
 
     }
     
+    
+    //EL DIALOGO DEL NPC
     public void setDialog () {
     	
-    	dialogues [0] = "Hola";
-    	dialogues [1] = "Que tal";
-    	dialogues [2] = "Tu mision es /n vencer a todos los enemigos";
+    	dialogues [0] = "Hola guerrero.";
+    	dialogues [1] = "Tu mision es vencer a todos los enemigos /npara poder matar al demonio que atormenta la region./nHay un elemental en la playa, un/ngoblin en una fortaleza abandonada /ny un slime rodeado de arboles.";
+    	dialogues [2] = "Habra llaves que te abriran puertas /npara poder continuar. /nAl lado del lago te he dejado un regalo, pero usalo /ncon sabiduria";
     	dialogues [3] = "Adelante";
     	
     }
     
+    
+    //MOVIMIENTO ALEATORIO DEL NPC
     public void setAction() {
     	
     	contadorAccion++;
@@ -68,6 +89,8 @@ public class npc extends Entity {
     	}
     }
     
+    
+    //PARA NOSOTROS HABLAR CON EL NPC
     public void speak () {
     	if (dialogues[dialogIndex] == null) {
     		dialogIndex = 0;

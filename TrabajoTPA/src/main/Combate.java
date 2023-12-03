@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Random;
+
 import entity.Entity;
 import entity.Player;
 import monsters.Monster;
@@ -55,21 +57,34 @@ public class Combate {
 			if(turno == 1) {
 				
 				if(gp.monstruos[gp.player.monstruoIndex].getHp() > 0) {
-				System.out.println("El monstruo te ha hecho dañoo");
 				
-				gp.player.setHp(gp.player.getHp() - 50);
+					if (gp.monstruos[gp.player.monstruoIndex].nombre != "Demonio") {
+						System.out.println("El monstruo te ha hecho daño");
+						
+						gp.player.setHp(gp.player.getHp() - gp.monstruos[gp.player.monstruoIndex].getDmg());
+					}else {
+						Random random = new Random();
+				    	int i = random.nextInt(100)+1;
+				    	if (i <= 10) {
+				    		System.out.print("El demonio ha utilizado su habilidad especial!!!");
+				    		gp.monstruos[gp.player.monstruoIndex].specialAttack();
+				    	}else {
+				    		System.out.println("El demonio te ha hecho daño");
+							
+							gp.player.setHp(gp.player.getHp() - gp.monstruos[gp.player.monstruoIndex].getDmg());
+				    	}
+					}
 				
 				//RECUPERAR MANA
-				if(gp.player.getMana() <= 75) {
-				gp.player.setMana(gp.player.getMana() + 25);
-				}
-				else if(gp.player.getMana() > 75) {
-					gp.player.setMana(gp.player.maxmana);
-				}
-				turno = 0;
-			}
-				else if (gp.monstruos[gp.player.monstruoIndex].getHp() <= 0) {
-					gp.gameState = gp.playState;
+					if(gp.player.getMana() <= 75) {
+						gp.player.setMana(gp.player.getMana() + 25);
+					}
+					else if(gp.player.getMana() > 75) {
+						gp.player.setMana(gp.player.maxmana);
+					}
+					turno = 0;
+				} else if (gp.monstruos[gp.player.monstruoIndex].getHp() <= 0) {
+				gp.gameState = gp.playState;
 				}
 			}
 			}
@@ -91,6 +106,7 @@ public class Combate {
 		gp.gameState = gp.playState;
 		System.out.println("Has derrotado al enemigo! Felicidades! Continua con la busqueda de objetos");
 		gp.player.setMana(gp.player.maxmana);
+		turno = 0;
 		//gp.player.setHp(gp.player.maxhp);
 
 	}

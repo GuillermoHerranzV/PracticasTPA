@@ -35,6 +35,8 @@ public class Player extends Entity{
     
     int dmg;
 
+    
+    //CONSTRUCTOR DE NUESTRO PERSONAJE
     public Player(PanelDeJuego gp, Controles key) {
     	
     	super(gp);
@@ -57,13 +59,14 @@ public class Player extends Entity{
        	setDefaultValues();
     }
     
+    //VALORES DE ATRIBUTOS AL INICIAR
     public void setDefaultValues () {
     	
     	mundoX = gp.tamFinalCasilla * 23;
     	mundoY = gp.tamFinalCasilla * 21;
     	speed = 4;
     	direction = "down";
-    	maxhp = 100;
+    	setmaxHp(100);
     	setHp(maxhp);
     	maxmana = 100;
     	setMana(maxmana);
@@ -71,12 +74,15 @@ public class Player extends Entity{
     	setDmg(maxdmg);
     }
     
+    //POSICION DEL PERSONAJE AL INICIAR
     public void setDefaultPositions () {
     	mundoX = gp.tamFinalCasilla * 23;
     	mundoY = gp.tamFinalCasilla * 21;
     	direction = "down";
     }
     
+    
+    //IMAGENES DDE NUESTROS PERSONAJES
     public void getPlayerImage (int i) {
     	
     	if (i == 0) {
@@ -127,6 +133,7 @@ public class Player extends Entity{
     	return scaledImage;
     }
 
+    
     public void update () {
     	
     	if (key.arriba == true || key.abajo == true || key.izq == true || key.der == true || key.enterPressed == true) {
@@ -190,9 +197,8 @@ public class Player extends Entity{
     	
     }
     
-    public void setAction() {}
-    public void speak() {}
     
+    //METODO QUE NOS AYUDA A CONFIGURAR A LA HORA DE COGER LOS OBJETOS DEL MAPA
     public void cogerObjeto (int index) {
     	
     	if (index != 999) {
@@ -205,6 +211,7 @@ public class Player extends Entity{
     			gp.efectoSonido(1);
     			tieneLlave ++;
     			gp.objetos[index] = null;
+    			System.out.println("Has obtenido una llave!");
     			gp.ui.mostrarMensaje("Llave obtenida");
     			break;
     			
@@ -214,21 +221,26 @@ public class Player extends Entity{
     				gp.objetos[index] = null;
     				tieneLlave --;
     				gp.ui.mostrarMensaje("Puerta abierta");
+        			System.out.println("Has abierto una puerta!");
     			}else {
     				gp.ui.mostrarMensaje("No tienes mas llaves");
+        			System.out.println("No tienes mas llaves!");
     			}
     			break;
     			
     		case "Botas":
     			gp.efectoSonido(2);
     			speed += 1;
+    			setHp(maxhp);
     			gp.objetos[index] = null;
     			gp.ui.mostrarMensaje("Ahora eres mas rapido!!!");
+    			System.out.println("Wow! Has aumentado tu velocidad!");
     			break;
     		case "Cofre":
     			gp.ui.juegoTerminado = true;
     			gp.stopMusic();
     			gp.efectoSonido(4);
+    			gp.gameState = gp.victoriaState;
     			break;
     			
     		}
@@ -237,6 +249,7 @@ public class Player extends Entity{
     	
     }
     
+    //METODO PARA DIALOGAR CON EL NPC DEL INICIO
     public void interactNPC(int i) {
 		
 		if(i != 999) {
@@ -264,11 +277,16 @@ public class Player extends Entity{
     	if (i != 999) {
     		
     		//hp -= 1;
-    		gp.gameState = gp.combatState;
+    		if (i >= 0 && i < 3) {
+    			gp.gameState = gp.combatState;
+    		}else if (i == 3 && enemigosDerrotados == 3) {
+    			gp.gameState = gp.combatState;
+    		}
     		
     	}
     	
     }
+    
     
     public void draw (Graphics2D g2) {
     	
@@ -434,6 +452,10 @@ public class Player extends Entity{
     	mana = a;
     }
     
+    public void setmaxHp(int a) {
+    	maxhp = a;
+    }
+    
     /**
      * Funcion para indicar la subida de nivel
      */
@@ -441,5 +463,17 @@ public class Player extends Entity{
         exp = ++exp;
         System.out.println("Congratulations! You have leveled up! Your new level is: " + this.getExp());
     }
+
+	@Override
+	public void speak() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAction() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
