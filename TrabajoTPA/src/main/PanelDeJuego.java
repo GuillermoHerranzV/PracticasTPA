@@ -90,6 +90,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	public final int pauseState = 2;
 	public final int dialogState = 3;
 	public final int combatState = 4;
+	public final int derrotaState = 5;
 	
 	
 	/**
@@ -105,6 +106,13 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 		gameState = titleState;
 		
+	}
+	
+	public void retry () {
+		gameState = playState;
+		player.setDefaultPositions();
+		aSetter.setNPC();
+		aSetter.setMonstruo();
 	}
 	
 	/**

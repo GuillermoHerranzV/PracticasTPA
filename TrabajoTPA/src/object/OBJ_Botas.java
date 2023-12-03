@@ -16,4 +16,6 @@ public class OBJ_Botas extends Entity{
 		down1 = setup ("/objects/boots");
 		
 	}
+	public void setAction() {}
+	public void speak() {}
 }

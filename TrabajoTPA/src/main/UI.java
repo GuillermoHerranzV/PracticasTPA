@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import object.OBJ_llave;
 
@@ -20,6 +23,7 @@ public class UI {
 	public String currentDialog = "";
 	public int commandNum = 0;
 	public int commandNumCombat = 0;
+	public int commandNumDerrota = 0;
 	public int titleScreenState = 0;
 	
 	public UI (PanelDeJuego gp) {
@@ -51,7 +55,8 @@ public class UI {
 		
 		//Play State
 		if(gp.gameState == gp.playState) {
-			g2.drawString(gp.player.hp + "/" + gp.player.maxhp, 50, 50);
+			g2.drawString("Vida: " + gp.player.hp + "/" + gp.player.maxhp, 50, 50);
+			g2.drawString("Mana: " + gp.player.mana + "/" + gp.player.maxmana, 50, 70);
 		}
 		
 		//Pause State
@@ -68,17 +73,59 @@ public class UI {
 		
 		if (gp.gameState == gp.combatState) {
 			drawCombatScreen (gp.player.monstruoIndex);
-			g2.drawString(gp.player.hp + "/" + gp.player.maxhp, 50, 50);
-			
+			g2.drawString("Vida: " + gp.player.hp + "/" + gp.player.maxhp, 50, 50);	
+			g2.drawString("Vida: " + gp.monstruos[gp.player.monstruoIndex].getHp() + "/" + gp.monstruos[gp.player.monstruoIndex].maxhp, 550, 50);	
+			g2.drawString("Mana: " + gp.player.mana + "/" + gp.player.maxmana, 50, 70);
 		}
 		
+		if(gp.gameState == gp.derrotaState) {
+			drawDerrotaScreen();
+		}
+		
+	}
+	
+	public void drawDerrotaScreen() {
+		g2.setColor(new Color(70, 120, 80));
+		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
+		//TITULO
+		
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
+		String text = "DERROTA";
+		int x = getXforCenteredText(text);
+		int y = gp.tamFinalCasilla * 2;
+		
+		g2.setColor(Color.black);
+		g2.drawString(text, x+5, y+5);
+		
+		g2.setColor(Color.white);
+		g2.drawString(text, x, y);
+		
+		//MENU
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,28F));
+		
+		text = "EMPEZAR DE NUEVO";
+		x = getXforCenteredText(text);
+		y = y + gp.tamFinalCasilla + 40;
+		g2.drawString(text, x, y);
+		if(commandNumDerrota == 0) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
+		}
+		
+		text = "SALIR";
+		x = getXforCenteredText(text);
+		y = y + gp.tamFinalCasilla + 40;
+		g2.drawString(text, x, y);
+		if(commandNumDerrota == 1) {
+			g2.drawString(">", x-gp.tamFinalCasilla, y);
+		}
+
 	}
 	
 	public void drawTitleScreen() {
 		
 		if(titleScreenState == 0) {
 			
-			g2.setColor(new Color(70, 120, 80));
+			g2.setColor(new Color(0, 0, 72));
 			g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
 			//TITULO
 			
@@ -96,7 +143,18 @@ public class UI {
 			//IMAGEN DEL PESONAJE		
 			x = gp.anchoVentana / 2 - (gp.tamFinalCasilla*2)/2;
 			y = y + gp.tamFinalCasilla;
-			g2.drawImage(gp.player.down1, x, y, gp.tamFinalCasilla*2, gp.tamFinalCasilla*2, null);
+			UtilityTool uTool = new UtilityTool();
+	    	BufferedImage scaledImage = null;
+	    	try {
+	    		
+	    		scaledImage = ImageIO.read (getClass().getResourceAsStream("/tiles/inicio.jpg"));
+	    		scaledImage = uTool.scaleImage(scaledImage, gp.tamFinalCasilla, gp.tamFinalCasilla);
+	    		
+	    	} catch(IOException e) {
+	    		e.printStackTrace();
+	    	}
+	    	BufferedImage imagen = scaledImage;
+			g2.drawImage(imagen, x, y, gp.tamFinalCasilla*2, gp.tamFinalCasilla*2, null);
 			
 			//MENU
 			g2.setFont(g2.getFont().deriveFont(Font.BOLD,28F));
@@ -130,7 +188,7 @@ public class UI {
 			
 			
 			//SELECCION
-			g2.setColor(Color.white);
+			g2.setColor(Color.green);
 			g2.setFont(g2.getFont().deriveFont(42F));
 			
 			String text = "SELECCIONA TU PERSONAJE";
@@ -138,15 +196,15 @@ public class UI {
 			int y = gp.tamFinalCasilla;		
 			g2.drawString(text, x, y);
 			
-			text = "Caballero";
+			text = "Espada magica";
 			x = getXforCenteredText(text);
-			y = y + gp.tamFinalCasilla;		
+			y = y + 100 + gp.tamFinalCasilla;		
 			g2.drawString(text, x, y);
 			if(commandNum == 0) {
 				g2.drawString(">", x-gp.tamFinalCasilla, y);
 			}
 			
-			text = "Tanque";
+			text = "Murcielago";
 			x = getXforCenteredText(text);
 			y = y + gp.tamFinalCasilla;		
 			g2.drawString(text, x, y);
@@ -156,7 +214,7 @@ public class UI {
 			
 			text = "Fantasma";
 			x = getXforCenteredText(text);
-			y = y + gp.tamFinalCasilla*2;		
+			y = y + gp.tamFinalCasilla;		
 			g2.drawString(text, x, y);
 			if(commandNum == 2) {
 				g2.drawString(">", x-gp.tamFinalCasilla, y);
@@ -164,7 +222,7 @@ public class UI {
 			
 			text = "Atras";
 			x = getXforCenteredText(text);
-			y = y + gp.tamFinalCasilla*3;		
+			y = y + gp.tamFinalCasilla;		
 			g2.drawString(text, x, y);
 			if(commandNum == 3) {
 				g2.drawString(">", x-gp.tamFinalCasilla, y);

@@ -18,6 +18,7 @@ public class Monster extends Entity {
         maxhp = 250;
         hp = maxhp;
         
+        
         areaSolida.x = 3;
         areaSolida.y = 18;
         areaSolida.width = 42;
@@ -26,13 +27,7 @@ public class Monster extends Entity {
         areaSolidaDefaultY = areaSolida.y;
         
         getImagen ();
-        setDialog ();
-    }
-    
-    public void setDialog () {
-    	
-    	dialogues [0] = "Preparate para luchar";
-    	
+        
     }
     
     public void getImagen () {
@@ -79,9 +74,6 @@ public class Monster extends Entity {
     	
     }
     
-    public void speak () {
-    	super.speak();
-    }
-    
+    public void speak() {}
 }
 

@@ -19,5 +19,6 @@ public class OBJ_cofre extends Entity{
 		down1 = setup ("/objects/chest");
 		
 	}
-
+	public void setAction() {}
+	public void speak() {}
 }

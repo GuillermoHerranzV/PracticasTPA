@@ -13,10 +13,13 @@ import main.UtilityTool;
 /**
  * Clase base para todas las entidades del juego
  */
-public class Entity {
+public abstract class Entity {
     public int maxhp;
     public int hp;
-    private int dmg;
+    public int mana = 100;
+    public int maxmana;
+    public int maxdmg;
+    public int dmg;
     PanelDeJuego gp;
     public int mundoX, mundoY;
     public int speed;
@@ -43,36 +46,13 @@ public class Entity {
     	this.gp = gp;
     }
     
-    public void speak () {
-    	
-    	if (dialogues[dialogIndex] == null) {
-    		dialogIndex = 0;
-    	}
-    	gp.ui.currentDialog = dialogues[dialogIndex];
-    	dialogIndex ++;
-    	
-    	switch (gp.player.direction){
-    		
-    	case "up":
-    		direction = "down";
-    		break;
-    	case "down":
-    		direction = "up";
-    		break;
-    	case "left":
-    		direction = "right";
-    		break;
-    	case "right":
-    		direction = "left";
-    		break;
-    		
-    	}
-    	
+    public int getmaxHp() {
+    	return maxhp;
     }
     
-    public void setAction() {
-    	
-    }
+    public abstract void speak ();
+    
+    public abstract void setAction();
     
     public void update() {
     	
@@ -129,7 +109,7 @@ public class Entity {
 			
 			g2.drawImage(image, pantallaX, pantallaY, gp.tamFinalCasilla, gp.tamFinalCasilla, null);
 				    	
-	    	//Actualiza el sprite segun la direccion en la que nos movemos
+	    //Actualiza el sprite segun la direccion en la que nos movemos
 	    switch (direction) {
 	    	
 	    	case "up":
@@ -229,7 +209,8 @@ public class Entity {
      * @return Retorna un string como mensaje de confirmacion
      */
     public void attack() {
-        System.out.println ("Has atacado");
+    	
+        System.out.println ("Has atacado al enemigo");
     }
     
 }

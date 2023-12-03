@@ -26,5 +26,6 @@ public class OBJ_puerta extends Entity{
 		areaSolidaDefaultX = areaSolida.x;
 		areaSolidaDefaultY = areaSolida.y;
 	}
-	
+	public void setAction() {}
+	public void speak() {}
 }

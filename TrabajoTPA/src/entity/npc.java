@@ -69,7 +69,28 @@ public class npc extends Entity {
     }
     
     public void speak () {
-    	super.speak();
+    	if (dialogues[dialogIndex] == null) {
+    		dialogIndex = 0;
+    	}
+    	gp.ui.currentDialog = dialogues[dialogIndex];
+    	dialogIndex ++;
+    	
+    	switch (gp.player.direction){
+    		
+    	case "up":
+    		direction = "down";
+    		break;
+    	case "down":
+    		direction = "up";
+    		break;
+    	case "left":
+    		direction = "right";
+    		break;
+    	case "right":
+    		direction = "left";
+    		break;
+    		
+    	}
     }
     
 }

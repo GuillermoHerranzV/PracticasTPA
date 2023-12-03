@@ -1,5 +1,6 @@
 package entity;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,6 @@ public class Player extends Entity{
     PanelDeJuego gp;
     Controles key;
     String name;
-    int mana = 100;
     public int enemigosDerrotados = 0;
     
     public final int pantallaX;
@@ -52,7 +52,6 @@ public class Player extends Entity{
     	areaSolidaDefaultX = areaSolida.x;
     	areaSolidaDefaultY = areaSolida.y;
     	
-    	getPlayerImage();
         items = new ArrayList<String>();
         exp = 0.0;
        	setDefaultValues();
@@ -66,19 +65,48 @@ public class Player extends Entity{
     	direction = "down";
     	maxhp = 100;
     	setHp(maxhp);
+    	maxmana = 100;
+    	setMana(maxmana);
+    	maxdmg = 35;
+    	setDmg(maxdmg);
     }
     
-    public void getPlayerImage () {
+    public void setDefaultPositions () {
+    	mundoX = gp.tamFinalCasilla * 23;
+    	mundoY = gp.tamFinalCasilla * 21;
+    	direction = "down";
+    }
+    
+    public void getPlayerImage (int i) {
     	
-    	up1 = setup("boy_up_1");
-    	up2 = setup("boy_up_2");
-    	down1 = setup("boy_down_1");
-    	down2 = setup("boy_down_2");
-    	left1 = setup("boy_left_1");
-    	left2 = setup("boy_left_2");
-    	right1 = setup("boy_right_1");
-    	right2 = setup("boy_right_2");
-
+    	if (i == 0) {
+    		up1 = setup("sword_up_1");
+        	up2 = setup("sword_up_2");
+        	down1 = setup("sword_down_1");
+        	down2 = setup("sword_down_2");
+        	left1 = setup("sword_left_1");
+        	left2 = setup("sword_left_2");
+        	right1 = setup("sword_right_1");
+        	right2 = setup("sword_right_2");
+    	}else if (i == 1) {
+    		up1 = setup("bat_up_1");
+        	up2 = setup("bat_up_2");
+        	down1 = setup("bat_down_1");
+        	down2 = setup("bat_down_2");
+        	left1 = setup("bat_left_1");
+        	left2 = setup("bat_left_2");
+        	right1 = setup("bat_right_1");
+        	right2 = setup("bat_right_2");
+    	}else if (i == 2) {
+    		up1 = setup("ghostup");
+        	up2 = setup("ghostup2");
+        	down1 = setup("ghostdown");
+        	down2 = setup("ghostdown2");
+        	left1 = setup("ghostlft");
+        	left2 = setup("ghostlft2");
+        	right1 = setup("ghostrght");
+        	right2 = setup("ghostrght2");
+    	}
     	
     }
     
@@ -162,6 +190,9 @@ public class Player extends Entity{
     	
     }
     
+    public void setAction() {}
+    public void speak() {}
+    
     public void cogerObjeto (int index) {
     	
     	if (index != 999) {
@@ -217,17 +248,16 @@ public class Player extends Entity{
 		gp.key.enterPressed = false;
 	}
     
-    public void interactMonster (int i) {
+    /*public void interactMonster (int i) {
     	
     	if(i != 999) {
 			if (gp.key.enterPressed == true) {
-				gp.gameState = gp.dialogState;
-				gp.monstruos[i].speak();
+				gp.key.enterPressed = false;
+				gp.gameState = gp.combatState;
 			}
 		}
-		gp.key.enterPressed = false;
     	
-    }
+    }*/
     
     public void contactMonster (int i) {
     
@@ -310,12 +340,70 @@ public class Player extends Entity{
         items.add(item);
     }
     
+    
+    public void attack() {
+    	int aux1 = Controles.getAux();
+    	colocarDaños(aux1);
+    	
+        gp.monstruos[gp.player.monstruoIndex].setHp(gp.monstruos[gp.player.monstruoIndex].getHp() - dmg);
+        System.out.println ("Has atacado al enemigo");
+    }
+    
     public void useItem() {
         System.out.println("Has usado un objeto");
     }
     
     public void specialAttack () {
-    	System.out.println("Has usado el ataque especial");
+    	int aux1 = Controles.getAux();
+    	colocarDaños(aux1);
+    	colocarHPs(aux1);
+
+    	if(aux1 == 0) {
+        gp.monstruos[gp.player.monstruoIndex].setHp(gp.monstruos[gp.player.monstruoIndex].getHp() - (getDmg()*2));
+        setMana(getMana() - 75);
+    	System.out.println("Has usado el ataque especial de daño doble");
+    	}
+    	else if(aux1 == 1) {
+            gp.player.setHp(maxhp);
+            setMana(getMana() - 75);
+        	System.out.println("Has usado el ataque especial de curarte al máximo");
+        	}
+    	
+    	else if(aux1 == 2) {
+            if(gp.player.getHp() < gp.player.maxhp*0.5) {
+            gp.player.setHp(maxhp);
+        	System.out.println("Has usado el ataque especial de curarte al máximo");
+            }
+            else if(gp.player.maxhp >= gp.player.maxhp*0.5) {  		
+            gp.monstruos[gp.player.monstruoIndex].setHp(gp.monstruos[gp.player.monstruoIndex].getHp() - (getDmg()*2));
+        	System.out.println("Has usado el ataque especial de daño doble");
+            }
+            setMana(getMana() - 75);
+        	}
+    }
+    
+    public void colocarDaños(int aux1) {
+    	if(aux1 == 0) {
+    		setDmg(70);
+    	}
+    	else if (aux1 == 1) {
+    		setDmg(35);
+    	}
+    	else if(aux1 == 2) {
+    		setDmg(40);
+    	}
+    }
+    
+    public void colocarHPs(int aux1) {
+    	if(aux1 == 0) {
+    		maxhp = 200;
+    	}
+    	else if (aux1 == 1) {
+    		maxhp = 400;
+    	}
+    	else if(aux1 == 2) {
+    		maxhp = 300;
+    	}
     }
     
     public void setHp(int h) {

@@ -11,7 +11,7 @@ import main.PanelDeJuego;
  * Clase llave que hereda de SObject
  */
 public class OBJ_llave extends Entity{
-
+	
 	public OBJ_llave (PanelDeJuego gp) {
 		super (gp);	
 		
@@ -19,5 +19,6 @@ public class OBJ_llave extends Entity{
 		down1 = setup ("/objects/key");
 		
 	}
-	
+	public void setAction() {}
+	public void speak() {}
 }
