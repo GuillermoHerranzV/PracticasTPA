@@ -5,8 +5,12 @@ import java.util.Random;
 import entity.Entity;
 import main.PanelDeJuego;
 
+/**
+ * CLASE Goblin QUE HEREDA DE Entity E IMPLEMENTA Monster
+ */
 public class Goblin extends Entity implements Monster {
 	
+	//CONSTRUCTOR
 	public Goblin (PanelDeJuego gp) {
     	
     	super(gp);    	
@@ -27,6 +31,9 @@ public class Goblin extends Entity implements Monster {
         
     }
 
+	/**
+	 * COLOCA LA IMAGEN
+	 */
 	public void getImagen () {
     	
     	up1 = setup ("/monsters/goblin_2");
@@ -40,6 +47,9 @@ public class Goblin extends Entity implements Monster {
     	
     }
 	
+	/**
+	 * HACE QUE SE MUEVA ALEATORIAMENTE, SE PUEDE DESCOMENTAR PARA QUE SE MUEVA
+	 */
 	public void setAction () {
     	
     	/*contadorAccion++;

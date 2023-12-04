@@ -19,14 +19,13 @@ import main.Combate;
  * Clase jugador que hereda de Entity y amplia funcionalidades como las de interactuar...
  */
 public class Player extends Entity{
-    private double exp;
-    private List<String> items;
-    
+    //INSTANCIAS NECESARIAS DE OTRAS CLASES
     PanelDeJuego gp;
     Controles key;
+    //CARACTERISTICAS DEL JUGADOR
     String name;
     public int enemigosDerrotados = 0;
-    
+    //POSICION DEL JUGADOR EN PANTALLA
     public final int pantallaX;
     public final int pantallaY;
     
@@ -36,7 +35,11 @@ public class Player extends Entity{
     int dmg;
 
     
-    //CONSTRUCTOR DE NUESTRO PERSONAJE
+    /**
+     * CONSTRUCTOR DE NUESTRO PERSONAJE
+     * @param gp
+     * @param key
+     */
     public Player(PanelDeJuego gp, Controles key) {
     	
     	super(gp);
@@ -54,12 +57,12 @@ public class Player extends Entity{
     	areaSolidaDefaultX = areaSolida.x;
     	areaSolidaDefaultY = areaSolida.y;
     	
-        items = new ArrayList<String>();
-        exp = 0.0;
        	setDefaultValues();
     }
     
-    //VALORES DE ATRIBUTOS AL INICIAR
+    /**
+     * VALORES DE ATRIBUTOS POR DEFECTO
+     */
     public void setDefaultValues () {
     	
     	mundoX = gp.tamFinalCasilla * 23;
@@ -74,7 +77,9 @@ public class Player extends Entity{
     	setDmg(maxdmg);
     }
     
-    //POSICION DEL PERSONAJE AL INICIAR
+    /**
+     * POSICION DEL PERSONAJE AL INICIAR
+     */
     public void setDefaultPositions () {
     	mundoX = gp.tamFinalCasilla * 23;
     	mundoY = gp.tamFinalCasilla * 21;
@@ -82,7 +87,10 @@ public class Player extends Entity{
     }
     
     
-    //IMAGENES DDE NUESTROS PERSONAJES
+    /**
+     * COLOCA LAS IMAGENES DE NUESTROS PERSONAJES EN FUNCION DE CUAL SE ELIJA
+     * @param i
+     */
     public void getPlayerImage (int i) {
     	
     	if (i == 0) {
@@ -116,6 +124,9 @@ public class Player extends Entity{
     	
     }
     
+    /**
+     * UTILIZADO POR EL METODO GETPLAYERIMAGE PARA COLOCAR LA IMAGEN
+     */
     public BufferedImage setup(String imageName) {
     	
     	UtilityTool uTool = new UtilityTool();
@@ -133,7 +144,9 @@ public class Player extends Entity{
     	return scaledImage;
     }
 
-    
+    /**
+     * ACTUALIZA EL PERSONAJE EN PANTALLA SEGUN SI PUEDE CAMBIAR SU ESTADO Y COMPRUEBA LAS COLISIONES
+     */
     public void update () {
     	
     	if (key.arriba == true || key.abajo == true || key.izq == true || key.der == true || key.enterPressed == true) {
@@ -198,7 +211,10 @@ public class Player extends Entity{
     }
     
     
-    //METODO QUE NOS AYUDA A CONFIGURAR A LA HORA DE COGER LOS OBJETOS DEL MAPA
+    /**
+     * METODO QUE NOS AYUDA A CONFIGURAR A LA HORA DE COGER LOS OBJETOS DEL MAPA
+     * @param index
+     */
     public void cogerObjeto (int index) {
     	
     	if (index != 999) {
@@ -249,7 +265,10 @@ public class Player extends Entity{
     	
     }
     
-    //METODO PARA DIALOGAR CON EL NPC DEL INICIO
+    /**
+     * METODO PARA DIALOGAR CON EL NPC DEL INICIO
+     * @param i
+     */
     public void interactNPC(int i) {
 		
 		if(i != 999) {
@@ -261,17 +280,10 @@ public class Player extends Entity{
 		gp.key.enterPressed = false;
 	}
     
-    /*public void interactMonster (int i) {
-    	
-    	if(i != 999) {
-			if (gp.key.enterPressed == true) {
-				gp.key.enterPressed = false;
-				gp.gameState = gp.combatState;
-			}
-		}
-    	
-    }*/
-    
+    /**
+     * METODO PARA INICIAR COMBATE AL ENTRAR EN CONTACTO CON UN MONSTRUO
+     * @param i
+     */
     public void contactMonster (int i) {
     
     	if (i != 999) {
@@ -287,7 +299,9 @@ public class Player extends Entity{
     	
     }
     
-    
+    /**
+     * DIBUJA EL PERSONAJE
+     */
     public void draw (Graphics2D g2) {
     	
     	//g2.setColor(Color.white);
@@ -337,43 +351,38 @@ public class Player extends Entity{
     	g2.drawImage(image, pantallaX, pantallaY, null);
     	
     }
-    
-    public double getExp() {
-        return exp;
-    }
-
+     
     /**
-     * Funcion para saber los objetos que lleva el jugador
-     * @return retorna la lista de objetos
+     * METODO PARA EL ATAQUE PRINCIPAL DEL PERSONAJE
      */
-    public List<String> getItems() {
-        return items;
-    }
-
-    /**
-     * Funcion para sumar objetos al inventario del jugador
-     * @param item, es el item recogido
-     */
-    public void setItems(String item) {
-        items.add(item);
-    }
-    
-    
     public void attack() {
     	int aux1 = Controles.getAux();
-    	colocarDaños(aux1);
+    	colocarDanios(aux1);
     	
         gp.monstruos[gp.player.monstruoIndex].setHp(gp.monstruos[gp.player.monstruoIndex].getHp() - dmg);
         System.out.println ("Has atacado al enemigo");
     }
     
-    public void useItem() {
+    /**
+     * METODO PARA UTILIZAR EL ITEM EN COMBATE (MAXIMO 3 USOS POR COMBATE)
+     * @param usos
+     */
+    public void useItem(int usos) {
+    	gp.monstruos[gp.player.monstruoIndex].setHp(gp.monstruos[gp.player.monstruoIndex].getHp() - 25);
+    	setHp(getHp()+25);
         System.out.println("Has usado un objeto");
+        if (usos > 0) {
+        	usos--;
+        }
     }
     
+    /**
+     * METODO PARA EL ATAQUE ESPECIAL DEL PERSONAJE DEPENDIENDO DE CUAL ELIJAMOS AL PRINCIPIO
+     * AUX1 ES EL INDICADOR DE PERSONAJE
+     */
     public void specialAttack () {
     	int aux1 = Controles.getAux();
-    	colocarDaños(aux1);
+    	colocarDanios(aux1);
     	colocarHPs(aux1);
 
     	if(aux1 == 0) {
@@ -400,7 +409,11 @@ public class Player extends Entity{
         	}
     }
     
-    public void colocarDaños(int aux1) {
+    /**
+     * METODO PARA COLOCAR EL DMG SEGUN EL PERSONAJE
+     * @param aux1
+     */
+    public void colocarDanios(int aux1) {
     	if(aux1 == 0) {
     		setDmg(70);
     	}
@@ -412,6 +425,10 @@ public class Player extends Entity{
     	}
     }
     
+    /**
+     * METODO PARA COLOCAR LA VIDA SEGUN EL PERSONAJE
+     * @param aux1
+     */
     public void colocarHPs(int aux1) {
     	if(aux1 == 0) {
     		maxhp = 200;
@@ -455,25 +472,15 @@ public class Player extends Entity{
     public void setmaxHp(int a) {
     	maxhp = a;
     }
-    
-    /**
-     * Funcion para indicar la subida de nivel
-     */
-    public void levelUp() {
-        exp = ++exp;
-        System.out.println("Congratulations! You have leveled up! Your new level is: " + this.getExp());
-    }
 
 	@Override
 	public void speak() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setAction() {
-		// TODO Auto-generated method stub
-		
+			
 	}
     
 }

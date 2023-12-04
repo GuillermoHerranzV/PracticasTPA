@@ -3,6 +3,9 @@ package main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * CLASE CON UN SOLO METODO PARA REESCALAR UNA IMAGEN
+ */
 public class UtilityTool {
 	
 	public BufferedImage scaleImage(BufferedImage original, int width, int height) {

@@ -5,8 +5,12 @@ import java.util.Random;
 import entity.Entity;
 import main.PanelDeJuego;
 
+/**
+ * CLASE Elemental QUE HEREDA DE Entity E IMPLEMENTA Monster
+ */
 public class Elemental extends Entity implements Monster{
 
+	//CONSTRUCTOR
 	public Elemental (PanelDeJuego gp) {
     	
     	super(gp);    	
@@ -27,6 +31,9 @@ public class Elemental extends Entity implements Monster{
         
     }
 
+	/**
+	 * COLOCA LA IMAGEN
+	 */
 	public void getImagen () {
     	
     	up1 = setup ("/monsters/Elemental_1");
@@ -40,6 +47,9 @@ public class Elemental extends Entity implements Monster{
     	
     }
 	
+	/**
+	 * HACE QUE SE MUEVA ALEATORIAMENTE
+	 */
 	public void setAction () {
     	
     	contadorAccion++;

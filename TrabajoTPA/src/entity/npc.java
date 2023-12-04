@@ -4,9 +4,12 @@ import java.util.Random;
 
 import main.PanelDeJuego;
 
+/**
+ * CLASE NPC QUE HEREDA DE ENTITY
+ */
 public class npc extends Entity {
 	
-	/* 
+	/**
 	 * PATRON DE DISEÑO: SINGLETON
 	 * La clase tiene un constructor privado y un método estático getInstance que devuelve la única instancia de la clase npc.
 	 */
@@ -14,7 +17,10 @@ public class npc extends Entity {
 	private static npc instance;
 
     
-    //CONSTRUCTOR PRIVADO
+    /**
+     * CONSTRUCTOR PRIVADO
+     * @param gp
+     */
     private npc(PanelDeJuego gp) {
     	
         super(gp);
@@ -24,7 +30,11 @@ public class npc extends Entity {
         setDialog();
     }
 
-	//METODO ESTATICO
+	/**
+	 * METODO ESTATICO
+	 * @param gp
+	 * @return instance
+	 */
     public static npc getInstance(PanelDeJuego gp) {
         if (instance == null) {
             instance = new npc(gp);
@@ -32,7 +42,9 @@ public class npc extends Entity {
         return instance;
     }
 	
-    //RECOGE LAS IMAGENES DEL NPC
+    /**
+     * METODO GETIMAGEN QUE RECOGE LAS IMAGENES DEL NPC
+     */
     public void getImagen () {
     	
     	up1 = setup("/npc/oldman_up_1");
@@ -47,7 +59,9 @@ public class npc extends Entity {
     }
     
     
-    //EL DIALOGO DEL NPC
+    /**
+     * METODO SETDIALOG QUE ESTABLECE EL DIALOGO DEL NPC
+     */
     public void setDialog () {
     	
     	dialogues [0] = "Hola guerrero.";
@@ -58,7 +72,9 @@ public class npc extends Entity {
     }
     
     
-    //MOVIMIENTO ALEATORIO DEL NPC
+    /**
+     * METODO SETACTION QUE DECLARA MOVIMIENTOS ALEATORIOS DEL NPC
+     */
     public void setAction() {
     	
     	contadorAccion++;
@@ -90,7 +106,9 @@ public class npc extends Entity {
     }
     
     
-    //PARA NOSOTROS HABLAR CON EL NPC
+    /**
+     * METODO SPEAK PARA HABLAR CON EL NPC
+     */
     public void speak () {
     	if (dialogues[dialogIndex] == null) {
     		dialogIndex = 0;

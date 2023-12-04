@@ -11,6 +11,9 @@ import javax.imageio.ImageIO;
 
 import object.OBJ_llave;
 
+/**
+ * CLASE UI PARA DIBUJAR TODOS LOS MENUS EN PANTALLA
+ */
 public class UI {
 
 	PanelDeJuego gp;
@@ -21,6 +24,7 @@ public class UI {
 	int contadorMensaje = 0;
 	public boolean juegoTerminado = false;
 	public String currentDialog = "";
+	//LOS commandNum SON PARA LA OPCION SEGUN NAVEGAS POR UN MENU
 	public int commandNum = 0;
 	public int commandNumCombat = 0;
 	public int commandNumDerrota = 0;
@@ -41,6 +45,10 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO QUE COMPRUEBA QUE MENU DIBUJAR Y DIBUJA ALGUNAS COSAS EN ELLOS
+	 * @param g2
+	 */
 	public void draw (Graphics2D g2) {
 		
 		this.g2 = g2;
@@ -88,6 +96,9 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LA PANTALLA DE VICTORIA
+	 */
 	public void drawVictoriaScreen() {
 		g2.setColor(new Color(70, 120, 80));
 		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
@@ -116,6 +127,9 @@ public class UI {
 		}
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LA PANTALLA DE DERROTA
+	 */
 	public void drawDerrotaScreen() {
 		g2.setColor(new Color(70, 120, 80));
 		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
@@ -153,6 +167,9 @@ public class UI {
 
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LA PANTALLA DE TITULO
+	 */
 	public void drawTitleScreen() {
 		
 		if(titleScreenState == 0) {
@@ -215,7 +232,7 @@ public class UI {
 				g2.drawString(">", x-gp.tamFinalCasilla, y);
 			}
 		}
-		
+		//SEGUNDA PANTALLA DE TITULO (SELECCION DE PERSONAJE)
 		else if (titleScreenState == 1) {
 			
 			
@@ -264,6 +281,9 @@ public class UI {
 
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LA PANTALLA DE PAUSA
+	 */
 	public void drawPauseScreen() {
 		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80));
 		String text = "PAUSED";
@@ -274,6 +294,10 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LA PANTALLA DE COMBATE
+	 * @param i
+	 */
 	public void drawCombatScreen (int i) {
 		g2.setColor(new Color(0, 0, 0));
 		g2.fillRect(0, 0, gp.anchoVentana, gp.altoVentana);
@@ -328,6 +352,9 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO QUE DIBUJA LOS DIALOGOS
+	 */
 	public void drawDialogScreen () {
 		
 		//Ventana
@@ -348,6 +375,13 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO QUE DIBUJA EL RECUADRO DE DIALOGO
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public void drawSubWindow (int x, int y, int width, int height) {
 		
 		//Los 3 primeros numeros son RGB y el cuarto es la opacidad
@@ -363,6 +397,11 @@ public class UI {
 		
 	}
 	
+	/**
+	 * METODO PARA CENTRAR TEXTO EN PANTALLA
+	 * @param text
+	 * @return
+	 */
 	public int getXforCenteredText(String text) {
 		int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 		int x = gp.anchoVentana/2 - length/2;

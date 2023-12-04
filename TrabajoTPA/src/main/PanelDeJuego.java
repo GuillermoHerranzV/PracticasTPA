@@ -81,7 +81,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 	}
 	
 	/**
-	 * Estado del juego(modo pausa etc)
+	 * Estado del juego
 	 */
 	
 	public int gameState;
@@ -103,7 +103,7 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		aSetter.setNPC();
 		aSetter.setMonstruo();
 		
-//		playMusic (0);
+		//playMusic (0);
 		
 		gameState = titleState;
 		
@@ -287,6 +287,10 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		}
 	}
 	
+	/**
+	 * INICIA LA MUSICA
+	 * @param i
+	 */
 	public void playMusic (int i) {
 		
 		musica.setFile (i);
@@ -295,12 +299,19 @@ public class PanelDeJuego extends JPanel implements Runnable{
 		
 	}
 	
+	/**
+	 * PARA LA MUSICA
+	 */
 	public void stopMusic () {
 		
 		musica.stop();
 		
 	}
 	
+	/**
+	 * REPRODUCE UN EFECTO DE SONIDO
+	 * @param i
+	 */
 	public void efectoSonido (int i) {
 		
 		efectosSonido.setFile(i);

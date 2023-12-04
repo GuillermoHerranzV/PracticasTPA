@@ -14,6 +14,8 @@ import main.UtilityTool;
  * Clase base para todas las entidades del juego
  */
 public abstract class Entity {
+	
+	//ESTADISTICAS DEL  PERSONAJE
     public int maxhp;
     public int hp;
     public int mana = 100;
@@ -21,8 +23,10 @@ public abstract class Entity {
     public int maxdmg;
     public int dmg;
     PanelDeJuego gp;
+    //POSICIONES DEL PERSONAJE
     public int mundoX, mundoY;
     public int speed;
+    //ACCIONES
     public int contadorAccion;
     public String dialogues [] = new String [20];
     int dialogIndex = 0;
@@ -30,6 +34,7 @@ public abstract class Entity {
     public int spriteCounter = 0;
     public int spriteNum = 1;
     
+    //AREA SOLIDA DE COLISION E IMAGENES
     public int areaSolidaDefaultX, areaSolidaDefaultY;
     public Rectangle areaSolida = new Rectangle(0, 0, 48, 48);
     public boolean colisionOn = false;
@@ -38,22 +43,34 @@ public abstract class Entity {
 	public String nombre;
 	public boolean colision = false;
     
-    //Utilizado para poder guardar las imagenes del juego
+    //UTILIZADO PARA PODER GUARDAR LAS IMAGENES DEL JUEGO
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, estatico1, estatico2;
     public String direction = "down";
     
+    /**
+     * CONSTRUCTOR
+     * @param gp
+     */
     public Entity(PanelDeJuego gp) {
     	this.gp = gp;
     }
     
+    /**
+     * OBTENER EL MAXIMO DE VIDA
+     * @return
+     */
     public int getmaxHp() {
     	return maxhp;
     }
     
+    //METODO PARA HABLAR QUE IMPLEMENTAN LAS CLASES QUE LO USAN
     public abstract void speak ();
-    
+    //METODO PARA REALIZAR UNA ACCION QUE IMPLEMENTAN LAS CLASES QUE LO USAN
     public abstract void setAction();
     
+    /**
+     * METODO UPDATE QUE COMPRUEBA LAS COLISIONES DE OBJETOS Y ENEMIGOS, ACTUALIZA LA POSICION SI SE PUEDE Y DIBUJA EL SPRITE SEGUN SEA NECESARIO
+     */
     public void update() {
     	
     	setAction();
@@ -97,6 +114,10 @@ public abstract class Entity {
 		
 	}
     
+    /**
+     * METODO DRAW QUE DIBUJA TODO LO RELACIONADO CON LAS ENTIDADES
+     * @param g2
+     */
     public void draw(Graphics2D g2) {
     	
     	BufferedImage image = null;
@@ -160,6 +181,12 @@ public abstract class Entity {
 		}
     }
     
+    /**
+     * METODO SETUP QUE DEVUELVE UNA IMAGEN
+     * UTILIZADO PARA ASIGNAR LAS IMAGENES A CADA ENTIDAD
+     * @param imageName
+     * @return scaledImage de tipo BufferedImage
+     */
     public BufferedImage setup(String imageName) {
     	
     	UtilityTool uTool = new UtilityTool();
@@ -177,8 +204,17 @@ public abstract class Entity {
     	return scaledImage;
     }
     
+    /**
+     * METODO SPECIALATTACK QUE DEFINE UN ATAQUE ESPECIAL
+     */
     public void specialAttack () {
-		setHp(getHp() + maxhp/2);
+    	
+		if (getHp () < getmaxHp()/2) {
+			setHp(getHp() + maxhp/2);
+		}else {
+			setHp(maxhp);
+		}
+    	
 	}
     
     public int getHp() {
@@ -197,15 +233,6 @@ public abstract class Entity {
         this.dmg = damage;
     }
     
-    public int getX() {
-        return hp;
-    }
-    public int getY() {
-        return hp;
-    }
-    public int getSpeed() {
-        return hp;
-    }
     public void setX(int X) {
         this.mundoX = X;
     }
@@ -217,12 +244,11 @@ public abstract class Entity {
     }
     
     /**
-     * Funcion que utilizaremos para implementar el ataque
-     * @return Retorna un string como mensaje de confirmacion
+     * FUNCION PARA EL ATAQUE, IMPLEMENTADA EN LAS SUBCLASES
+     * 
      */
     public void attack() {
-    	
-        System.out.println ("Has atacado al enemigo");
+
     }
     
 }

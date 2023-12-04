@@ -8,7 +8,7 @@ import entity.Entity;
 import main.PanelDeJuego;
 
 /**
- * Clase puerta que hereda de SObject
+ * Clase puerta que hereda de Entity
  */
 public class OBJ_puerta extends Entity{
 	

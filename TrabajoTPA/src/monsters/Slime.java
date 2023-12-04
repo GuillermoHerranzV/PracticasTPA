@@ -5,8 +5,12 @@ import java.util.Random;
 import entity.Entity;
 import main.PanelDeJuego;
 
+/**
+ * CLASE Slime QUE HEREDA DE Entity E IMPLEMENTA Monster
+ */
 public class Slime extends Entity implements Monster{
 	
+	//CONSTRUCTOR
 	public Slime (PanelDeJuego gp) {
     	
     	super(gp);    	
@@ -28,6 +32,9 @@ public class Slime extends Entity implements Monster{
         
     }
 
+	/**
+	 * COLOCA LA IMAGEN
+	 */
 	public void getImagen () {
     	
     	up1 = setup ("/monsters/greenslime_down_1");
@@ -41,6 +48,9 @@ public class Slime extends Entity implements Monster{
     	
     }
 	
+	/**
+	 * HACE QUE SE MUEVA ALEATORIAMENTE, SE PUEDE DESCOMENTAR PARA QUE SE MUEVA
+	 */
 	public void setAction () {
     	
     	contadorAccion++;

@@ -18,6 +18,7 @@ public class AssetSetter {
 
 	PanelDeJuego gp;
 	
+	//CONSTRUCTOR
 	public AssetSetter (PanelDeJuego gp) {
 		
 		this.gp = gp;
@@ -64,6 +65,9 @@ public class AssetSetter {
 		
 	}
 	
+	/**
+	 * ASIGNA NPCs A UNA POSICION DE UN ARRAY Y LES ASIGNA UNA POSICION EN EL MAPA
+	 */
 	public void setNPC() {
 		
 		gp.npc[0] = npc.getInstance(gp);
@@ -73,6 +77,9 @@ public class AssetSetter {
 		
 	}
 	
+	/**
+	 * ASIGNA MONSTRUOS A UNA POSICION DE UN ARRAY Y LES ASIGNA UNA POSICION EN EL MAPA
+	 */
 	public void setMonstruo () {
 		
 		gp.monstruos[0] = new Slime (gp);

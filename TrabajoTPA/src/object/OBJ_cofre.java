@@ -8,7 +8,7 @@ import entity.Entity;
 import main.PanelDeJuego;
 
 /**
- * Clase cofre que hereda de SObject
+ * Clase cofre que hereda de Entity
  */
 public class OBJ_cofre extends Entity{
 	

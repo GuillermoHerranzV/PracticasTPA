@@ -6,7 +6,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-public class Sonido implements Playable { //IMPLEMENTA LA INTERFAZ Playable
+/**
+ * CLASE PARA EL SONIDO QUE IMPLEMENTA LA INTERFAZ Playable
+ */
+public class Sonido implements Playable { 
 
     private Clip clip;
     private final URL[] URLsonido = new URL[30];

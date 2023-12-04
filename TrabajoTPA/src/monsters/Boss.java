@@ -3,8 +3,12 @@ package monsters;
 import entity.Entity;
 import main.PanelDeJuego;
 
+/**
+ * CLASE Boss QUE HEREDA DE Entity E IMPLEMENTA Monster
+ */
 public class Boss extends Entity implements Monster{
-
+	
+	//CONSTRUCTOR
 	public Boss (PanelDeJuego gp) {
     	
     	super(gp);    	
@@ -25,7 +29,10 @@ public class Boss extends Entity implements Monster{
         getImagen ();
         
     }
-
+	
+	/**
+	 * COLOCA LA IMAGEN
+	 */
 	public void getImagen () {
     	
     	estatico1 = setup ("/monsters/Demon_1");
@@ -34,6 +41,9 @@ public class Boss extends Entity implements Monster{
     	
     }
 	
+	/**
+	 * HACE QUE SE MUEVA ALEATORIAMENTE, SE PUEDE DESCOMENTAR PARA QUE SE MUEVA
+	 */
 	public void setAction () {
     	
     	/*contadorAccion++;

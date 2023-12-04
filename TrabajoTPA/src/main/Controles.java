@@ -126,7 +126,6 @@ public class Controles implements KeyListener{
 				
 		//COMBAT STATE
 		if (gp.gameState == gp.combatState) {
-			
 			if (code == KeyEvent.VK_W) {
 				gp.ui.commandNumCombat--;
 				if(gp.ui.commandNumCombat < 0) {
@@ -163,6 +162,7 @@ public class Controles implements KeyListener{
 		
 		//DERROTA STATE
 		if(gp.gameState == gp.derrotaState) {
+			gp.stopMusic();
 			gp.ui.drawDerrotaScreen();
 			if (code == KeyEvent.VK_W) {
 				gp.ui.commandNumDerrota--;

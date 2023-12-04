@@ -7,6 +7,9 @@ import javax.imageio.ImageIO;
 import entity.Entity;
 import main.PanelDeJuego;
 
+/**
+ * CLASE Potion QUE HEREDA DE Entity
+ */
 public class OBJ_Potion extends Entity{
 
 	public OBJ_Potion (PanelDeJuego gp) {

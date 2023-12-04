@@ -8,7 +8,7 @@ import entity.Entity;
 public class Colisiones {
 	
 	PanelDeJuego gp;
-	
+	//CONSTRUCTOR
 	public Colisiones (PanelDeJuego gp) {
 		
 		this.gp = gp;
@@ -76,7 +76,12 @@ public class Colisiones {
 		
 	}
 	
-	//COMPROBACION DE COLISIONES
+	/**
+	 * METODO PARA COMPROBAR LAS COLISIONES CON UNA ENTIDAD
+	 * @param entidad
+	 * @param target
+	 * @return index
+	 */
 	public int comprobarEntidad(Entity entidad, Entity[] target) {
 		
 		int index = 999;
@@ -123,6 +128,10 @@ public class Colisiones {
 		return index;
 	}
 	
+	/**
+	 * METODO PARA COMPROBAR LAS COLISIONES CON EL JUGADOR HACIA CADA DIRECCION
+	 * @param entidad
+	 */
 	public void comprobarJugador(Entity entidad) {
 		
 		//Conseguir la posicion del area solida de la entidad
@@ -184,6 +193,12 @@ public class Colisiones {
 		
 	}
 	
+	/**
+	 * METODO QUE COMPRUEBA SI COLISIONAS CON UN OBJETO PARA PODER COGERLO
+	 * @param entidad
+	 * @param jugador
+	 * @return
+	 */
 	public int comprobarObjeto (Entity entidad, boolean jugador) {
 		
 		int index = 999;
