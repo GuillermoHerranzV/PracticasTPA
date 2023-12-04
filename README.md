@@ -16,6 +16,7 @@ En su estado actual el juego permite mover un personaje en una ventana con un ma
 
 ### NPC
 Hay un NPC el cual interactuas pulsando el enter a su lado y el te explica el objetivo del juego.
+
 ![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/9c23d7c6-50fa-4c4c-8dec-45a084c34d45)
 
 ### Personaje y enemigos
@@ -24,7 +25,9 @@ Cuando haces contacto con un enemigo entras en el combate y puedes salir dandole
 
 ### Items
 Hay items por el mapa que recoges y te permiten hacer diferentes cosas. Una pocion para curarte y aumentar tu velocidad y llaves para abrir las puertas que bloquean tu camino.
+
 ![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/40e2f719-f992-4be4-b1df-4895c090f833)
+
 ![image](https://github.com/GuillermoHerranzV/PracticasTPA/assets/149266597/0ddecf8f-e38b-4d64-ab57-44a847de4d46)
 
 ### Final
